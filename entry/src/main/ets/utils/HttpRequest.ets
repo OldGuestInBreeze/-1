@@ -1,7 +1,7 @@
 import { BusinessError } from '@kit.BasicServicesKit';
 import { http } from '@kit.NetworkKit';
 import { BaseUrl, HTTP_CODE_200, HTTP_READ_TIMEOUT } from '../common/Constant';
-import { showText } from './PromptUtil';
+import { showText } from './ShowUtil';
 
 export interface ResultData {
   success: boolean;
