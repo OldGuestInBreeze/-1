@@ -1,19 +1,12 @@
-import { promptAction } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { http } from '@kit.NetworkKit';
-
-export const BaseUrl: string = 'http://127.0.0.1:8081';
-
-const HTTP_CODE_200: number = 200;
+import { BaseUrl, HTTP_CODE_200, HTTP_READ_TIMEOUT } from '../common/Constant';
+import { showText } from './PromptUtil';
 
 export interface ResultData {
   success: boolean;
   obj: object;
   info: string;
-}
-
-function showText(message: string): void {
-  promptAction.showToast({ message });
 }
 
 export function httpRequest(url: string, option: http.HttpRequestOptions): Promise<ResultData> {
@@ -24,10 +17,14 @@ export function httpRequest(url: string, option: http.HttpRequestOptions): Promi
     info: ''
   };
 
+  if (option.readTimeout === undefined) {
+    option.readTimeout = HTTP_READ_TIMEOUT;
+  }
+
   return request.request(`${BaseUrl}${url}`, option)
     .then((response: http.HttpResponse) => {
       if (response.responseCode !== HTTP_CODE_200) {
-        showText('系统错误');
+        showText('\u7CFB\u7EDF\u9519\u8BEF');
         serverData.info = `HTTP ${response.responseCode}`;
         return serverData;
       }
@@ -39,7 +36,7 @@ export function httpRequest(url: string, option: http.HttpRequestOptions): Promi
       return serverData;
     })
     .catch((error: BusinessError) => {
-      showText('系统错误');
+      showText('\u7CFB\u7EDF\u9519\u8BEF');
       serverData.info = error.message;
       return serverData;
     })
