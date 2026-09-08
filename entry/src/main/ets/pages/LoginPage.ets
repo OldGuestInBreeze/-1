@@ -1,4 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI';
+import { login } from '../api/LoginApi';
+import { showText } from '../utils/ShowUtil';
+import { User } from '../viewmodel/User';
 
 @Entry
 @Component
@@ -12,16 +15,36 @@ struct LoginPage {
     });
   }
 
-  private login(): void {
-    if (this.username.trim().length === 0) {
-      promptAction.showToast({ message: '请输入用户名' });
+  private async clickLogin(): Promise<void> {
+    const username: string = this.username.trim();
+    if (username.length === 0) {
+      showText('\u8BF7\u8F93\u5165\u7528\u6237\u540D');
       return;
     }
     if (this.password.length === 0) {
-      promptAction.showToast({ message: '请输入密码' });
+      showText('\u8BF7\u8F93\u5165\u5BC6\u7801');
       return;
     }
-    this.openHome();
+
+    try {
+      const result = await login(username, this.password);
+      if (!result.success) {
+        showText(result.info.length > 0 ? result.info : '\u767B\u5F55\u5931\u8D25');
+        return;
+      }
+
+      const data = result.obj as User;
+      const user = new User(data.id, data.username, data.name, data.headImg, data.addr,
+        data.gender, data.lon, data.lat);
+      AppStorage.setOrCreate('user', user);
+      AppStorage.setOrCreate('isLogin', true);
+      showText('\u767B\u5F55\u6210\u529F', () => {
+        this.openHome();
+      });
+    } catch (error) {
+      console.error(`Failed to save login data: ${JSON.stringify(error)}`);
+      showText('\u767B\u5F55\u5931\u8D25');
+    }
   }
 
   build() {
@@ -105,7 +128,7 @@ struct LoginPage {
           .backgroundColor('#FF3B5C')
           .margin({ top: 15 })
           .onClick(() => {
-            this.login();
+            this.clickLogin();
           })
 
         Row() {
