@@ -4,6 +4,7 @@
     "pages/RegisterPage",
     "pages/Index",
     "pages/UserEditPage",
-    "pages/ResetPasswordPage"
+    "pages/ResetPasswordPage",
+    "pages/EventEditPage"
   ]
 }
