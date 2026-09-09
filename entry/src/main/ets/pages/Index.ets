@@ -1,4 +1,5 @@
 import HomeViewComponent from '../view/HomeViewComponent';
+import { UserInfoViewComponent } from '../view/UserInfoViewComponent';
 
 @Entry
 @Component
@@ -80,12 +81,7 @@ struct Index {
       ))
 
       TabContent() {
-        Column() {
-          Blank()
-        }
-          .width('100%')
-          .height('100%')
-          .backgroundColor(Color.White)
+        UserInfoViewComponent()
       }
       .tabBar(this.tabBarItem(
         3,
