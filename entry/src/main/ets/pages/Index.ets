@@ -1,7 +1,18 @@
+import HomeViewComponent from '../view/HomeViewComponent';
+
 @Entry
 @Component
 struct Index {
   @State selectedIndex: number = 0;
+  @State pageVisible: boolean = false;
+
+  onPageShow(): void {
+    this.pageVisible = true;
+  }
+
+  onPageHide(): void {
+    this.pageVisible = false;
+  }
 
   @Builder
   tabBarItem(index: number, title: string, selectedIcon: Resource, normalIcon: Resource) {
@@ -27,12 +38,9 @@ struct Index {
       index: this.selectedIndex
     }) {
       TabContent() {
-        Column() {
-          Blank()
-        }
-          .width('100%')
-          .height('100%')
-          .backgroundColor(Color.White)
+        HomeViewComponent({
+          pageVisible: this.pageVisible
+        })
       }
       .tabBar(this.tabBarItem(
         0,
