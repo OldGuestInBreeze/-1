@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
 import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { addEvent as requestAddEvent } from '../api/EventApi';
+import { addEvent as requestAddEvent, editEvent as requestEditEvent } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
 import { getCurrentLocationInfo, reqLocationPermissions } from '../utils/LocationUtil';
 import { showText } from '../utils/ShowUtil';
@@ -25,6 +25,18 @@ struct EventEditPage {
     const param = router.getParams() as RouterParam<Event>;
     if (param !== undefined && param.message !== undefined && param.message.length > 0) {
       this.type = param.message;
+    }
+    if (this.type === 'edit') {
+      if (param === undefined || param.data === undefined || param.data.id <= 0) {
+        showText('活动信息无效', () => {
+          router.back();
+        });
+        return;
+      }
+
+      const source = param.data;
+      this.event = new Event(source.id, source.userId, source.name, source.intro, source.addr, source.headImg,
+        source.startTime, source.lon, source.lat, source.state);
     }
 
     loginUserAction((user: User) => {
@@ -83,7 +95,7 @@ struct EventEditPage {
     }
   }
 
-  private async publishEvent(): Promise<void> {
+  private async submitEvent(): Promise<void> {
     const name = this.event.name.trim();
     const intro = this.event.intro.trim();
     const addr = this.event.addr.trim();
@@ -103,19 +115,20 @@ struct EventEditPage {
       this.event.startTime, this.event.lon, this.event.lat, this.event.state);
     this.publishing = true;
     try {
-      const result = await requestAddEvent(event);
+      const result = this.type === 'edit' ? await requestEditEvent(event) : await requestAddEvent(event);
       if (!result.success) {
-        showText(result.info.length > 0 ? result.info : '发布失败');
+        showText(result.info.length > 0 ? result.info : (this.type === 'edit' ? '修改失败' : '发布失败'));
         return;
       }
 
-      showText(result.info.length > 0 ? result.info : '添加成功', () => {
+      showText(result.info.length > 0 ? result.info : (this.type === 'edit' ? '修改成功' : '添加成功'), () => {
         router.back();
       });
     } catch (error) {
       const businessError = error as BusinessError;
-      console.error(`Failed to publish event. Code: ${businessError.code}, message: ${businessError.message}`);
-      showText(businessError.message.length > 0 ? businessError.message : '发布失败');
+      console.error(`Failed to save event. Code: ${businessError.code}, message: ${businessError.message}`);
+      showText(businessError.message.length > 0 ? businessError.message :
+        (this.type === 'edit' ? '修改失败' : '发布失败'));
     } finally {
       this.publishing = false;
     }
@@ -135,7 +148,8 @@ struct EventEditPage {
 
           Blank()
 
-          Button(this.publishing ? '发布中' : '发布')
+          Button(this.publishing ? (this.type === 'edit' ? '保存中' : '发布中') :
+            (this.type === 'edit' ? '保存' : '发布'))
             .height(38)
             .fontSize(16)
             .fontColor(Color.White)
@@ -143,9 +157,7 @@ struct EventEditPage {
             .borderRadius(20)
             .enabled(!this.publishing && !this.uploading)
             .onClick(() => {
-              if (this.type === 'add') {
-                this.publishEvent();
-              }
+              this.submitEvent();
             })
         }
         .width('100%')
