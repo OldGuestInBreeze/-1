@@ -66,6 +66,24 @@ export default struct EventViewComponent {
     }
   }
 
+  private openEvent(eventId: number): void {
+    router.pushUrl({
+      url: 'pages/EventInfoPage',
+      params: {
+        data: eventId
+      }
+    });
+  }
+
+  private openMembers(eventId: number): void {
+    router.pushUrl({
+      url: 'pages/TeamListPage',
+      params: {
+        data: eventId
+      }
+    });
+  }
+
   @Builder
   teamCard(item: Team) {
     Row() {
@@ -75,6 +93,9 @@ export default struct EventViewComponent {
         .height(80)
         .borderRadius(10)
         .objectFit(ImageFit.Cover)
+        .onClick(() => {
+          this.openEvent(item.eventId);
+        })
 
       Column() {
         Text(item.eventName)
@@ -84,6 +105,9 @@ export default struct EventViewComponent {
           .fontWeight(FontWeight.Medium)
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .onClick(() => {
+            this.openEvent(item.eventId);
+          })
 
         Row() {
           Image($r('app.media.event_position'))
@@ -104,6 +128,9 @@ export default struct EventViewComponent {
         .margin({ top: 8 })
         .borderRadius(3)
         .backgroundColor('#F5F5F5')
+        .onClick(() => {
+          this.openEvent(item.eventId);
+        })
 
         Row() {
           Row() {
@@ -128,6 +155,9 @@ export default struct EventViewComponent {
         }
         .width('100%')
         .margin({ top: 5 })
+        .onClick(() => {
+          this.openMembers(item.eventId);
+        })
       }
       .layoutWeight(1)
       .height(80)
@@ -139,14 +169,6 @@ export default struct EventViewComponent {
     .padding({ left: 9, right: 9, top: 10, bottom: 10 })
     .backgroundColor(Color.White)
     .borderRadius(7)
-    .onClick(() => {
-      router.pushUrl({
-        url: 'pages/EventInfoPage',
-        params: {
-          data: item.eventId
-        }
-      });
-    })
   }
 
   build() {

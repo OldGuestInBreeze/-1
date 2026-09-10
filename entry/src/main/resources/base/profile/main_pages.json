@@ -8,6 +8,7 @@
     "pages/EventEditPage",
     "pages/MyEventPage",
     "pages/EventListPage",
-    "pages/EventInfoPage"
+    "pages/EventInfoPage",
+    "pages/TeamListPage"
   ]
 }
