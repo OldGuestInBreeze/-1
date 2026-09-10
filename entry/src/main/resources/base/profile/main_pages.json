@@ -6,6 +6,7 @@
     "pages/UserEditPage",
     "pages/ResetPasswordPage",
     "pages/EventEditPage",
-    "pages/MyEventPage"
+    "pages/MyEventPage",
+    "pages/EventListPage"
   ]
 }

@@ -77,7 +77,7 @@ export default struct HomeViewComponent {
           router.pushUrl({
             url: 'pages/EventListPage',
             params: {
-              data: value
+              data: value.trim()
             }
           });
         })
