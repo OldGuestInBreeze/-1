@@ -1,9 +1,17 @@
 import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { getEventInfo } from '../api/EventApi';
+import {
+  addComment as requestAddComment,
+  getCommentList as requestCommentList,
+  getEventInfo
+} from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
+import { showText } from '../utils/ShowUtil';
+import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
+import { EventComment } from '../viewmodel/EventComment';
 import { RouterParam } from '../viewmodel/RouterParam';
+import { User } from '../viewmodel/User';
 
 @Entry
 @Component
@@ -11,6 +19,12 @@ struct EventInfoPage {
   @State item: Event = new Event(0, 0, '', '', '', '', '', 0, 0, 0);
   @State loading: boolean = false;
   @State loadFailed: boolean = false;
+  @State commentListShow: boolean = false;
+  @State commentList: EventComment[] = [];
+  @State comment: string = '';
+  @State commentsLoading: boolean = false;
+  @State commentsFailed: boolean = false;
+  @State submittingComment: boolean = false;
   private eventId: number = 0;
 
   aboutToAppear(): void {
@@ -45,12 +59,75 @@ struct EventInfoPage {
       const event = response.obj as Event;
       this.item = new Event(event.id, event.userId, event.name, event.intro, event.addr, event.headImg,
         event.startTime, event.lon, event.lat, event.state);
+      await this.loadComments();
     } catch (error) {
       const businessError = error as BusinessError;
       console.error(`Failed to load event details. Code: ${businessError.code}, message: ${businessError.message}`);
       this.loadFailed = true;
     } finally {
       this.loading = false;
+    }
+  }
+
+  private async loadComments(): Promise<void> {
+    if (this.eventId <= 0 || this.commentsLoading) {
+      return;
+    }
+
+    this.commentsLoading = true;
+    this.commentsFailed = false;
+    try {
+      const response = await requestCommentList(this.eventId);
+      if (!response.success) {
+        this.commentList = [];
+        this.commentsFailed = true;
+        return;
+      }
+      this.commentList = response.obj as EventComment[];
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to load comments. Code: ${businessError.code}, message: ${businessError.message}`);
+      this.commentList = [];
+      this.commentsFailed = true;
+    } finally {
+      this.commentsLoading = false;
+    }
+  }
+
+  private addComment(): void {
+    loginUserAction((user: User) => {
+      this.publishComment(user);
+    }, () => {
+      showText('请先登录');
+    });
+  }
+
+  private async publishComment(user: User): Promise<void> {
+    const content: string = this.comment.trim();
+    if (content.length === 0) {
+      showText('请输入评论内容');
+      return;
+    }
+    if (this.submittingComment) {
+      return;
+    }
+
+    this.submittingComment = true;
+    try {
+      const response = await requestAddComment(new EventComment(this.eventId, user.id, content));
+      if (response.success) {
+        this.comment = '';
+        await this.loadComments();
+        showText('评论添加成功');
+      } else {
+        showText('评论添加失败');
+      }
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to publish comment. Code: ${businessError.code}, message: ${businessError.message}`);
+      showText('评论添加失败');
+    } finally {
+      this.submittingComment = false;
     }
   }
 
@@ -81,6 +158,150 @@ struct EventInfoPage {
   }
 
   @Builder
+  CommentSheet() {
+    Column() {
+      Text('热门评论')
+        .width('90%')
+        .height(44)
+        .fontSize(17)
+        .fontWeight(FontWeight.Medium)
+        .fontColor('#333333')
+        .textAlign(TextAlign.Start)
+
+      if (this.commentsLoading) {
+        Column() {
+          LoadingProgress()
+            .width(34)
+            .height(34)
+            .color('#FF3551')
+
+          Text('正在加载评论')
+            .fontSize(14)
+            .fontColor('#888888')
+            .margin({ top: 10 })
+        }
+        .layoutWeight(1)
+        .width('100%')
+        .justifyContent(FlexAlign.Center)
+      } else if (this.commentsFailed) {
+        Column() {
+          Text('评论加载失败')
+            .fontSize(15)
+            .fontColor('#888888')
+
+          Button('重新加载')
+            .height(36)
+            .fontSize(14)
+            .fontColor(Color.White)
+            .backgroundColor('#FF3551')
+            .borderRadius(18)
+            .margin({ top: 12 })
+            .onClick(() => {
+              this.loadComments();
+            })
+        }
+        .layoutWeight(1)
+        .width('100%')
+        .justifyContent(FlexAlign.Center)
+      } else if (this.commentList.length === 0) {
+        Column() {
+          Text('暂无评论')
+            .fontSize(15)
+            .fontColor('#999999')
+
+          Text('来发表第一条评论吧')
+            .fontSize(13)
+            .fontColor('#BBBBBB')
+            .margin({ top: 6 })
+        }
+        .layoutWeight(1)
+        .width('100%')
+        .justifyContent(FlexAlign.Center)
+      } else {
+        List() {
+          ForEach(this.commentList, (item: EventComment) => {
+            ListItem() {
+              Row() {
+                if (item.headImg !== undefined && item.headImg.length > 0) {
+                  Image(`${BaseUrl}${item.headImg}`)
+                    .width(46)
+                    .height(46)
+                    .borderRadius(23)
+                    .objectFit(ImageFit.Cover)
+                } else {
+                  Image($r('app.media.ic_user_icon_default'))
+                    .width(46)
+                    .height(46)
+                    .borderRadius(23)
+                    .objectFit(ImageFit.Cover)
+                }
+
+                Column() {
+                  Text(item.name === undefined || item.name.length === 0 ? '兴趣队友' : item.name)
+                    .width('100%')
+                    .fontSize(16)
+                    .fontWeight(FontWeight.Medium)
+                    .fontColor('#333333')
+                    .maxLines(1)
+                    .textOverflow({ overflow: TextOverflow.Ellipsis })
+
+                  Text(item.content)
+                    .width('100%')
+                    .fontSize(13)
+                    .fontColor('#555555')
+                    .lineHeight(19)
+                    .margin({ top: 5 })
+                }
+                .layoutWeight(1)
+                .alignItems(HorizontalAlign.Start)
+                .margin({ left: 12 })
+              }
+              .width('100%')
+              .alignItems(VerticalAlign.Top)
+              .padding({ top: 9, bottom: 9 })
+            }
+          })
+        }
+        .layoutWeight(1)
+        .width('90%')
+        .scrollBar(BarState.Off)
+      }
+
+      Row() {
+        TextInput({ placeholder: '评论...', text: this.comment })
+          .layoutWeight(1)
+          .height(42)
+          .fontSize(15)
+          .backgroundColor('#F0F0F0')
+          .borderRadius(22)
+          .padding({ left: 16, right: 16 })
+          .onChange((value: string) => {
+            this.comment = value;
+          })
+
+        Button(this.submittingComment ? '发布中' : '发布')
+          .width(86)
+          .height(42)
+          .fontSize(15)
+          .fontColor(Color.White)
+          .backgroundColor('#FF3551')
+          .borderRadius(22)
+          .margin({ left: 8 })
+          .enabled(!this.submittingComment)
+          .onClick(() => {
+            this.addComment();
+          })
+      }
+      .width('90%')
+      .height(58)
+      .alignItems(VerticalAlign.Center)
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#F8F8F8')
+  }
+
+  @Builder
   BottomBar() {
     Row() {
       Column() {
@@ -108,6 +329,14 @@ struct EventInfoPage {
           .margin({ top: 2 })
       }
       .width(64)
+      .onClick(() => {
+        this.commentListShow = true;
+        this.loadComments();
+      })
+      .bindSheet($$this.commentListShow, this.CommentSheet(), {
+        height: 500,
+        backgroundColor: '#F8F8F8'
+      })
 
       Button('+加入')
         .layoutWeight(1)
