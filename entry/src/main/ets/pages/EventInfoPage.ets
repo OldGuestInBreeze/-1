@@ -1,9 +1,11 @@
 import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import {
+  Join,
   addComment as requestAddComment,
   getCommentList as requestCommentList,
-  getEventInfo
+  getEventInfo,
+  isJoin
 } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
 import { showText } from '../utils/ShowUtil';
@@ -25,6 +27,8 @@ struct EventInfoPage {
   @State commentsLoading: boolean = false;
   @State commentsFailed: boolean = false;
   @State submittingComment: boolean = false;
+  @State joinStatusLoading: boolean = false;
+  @State joining: boolean = false;
   private eventId: number = 0;
 
   aboutToAppear(): void {
@@ -59,7 +63,8 @@ struct EventInfoPage {
       const event = response.obj as Event;
       this.item = new Event(event.id, event.userId, event.name, event.intro, event.addr, event.headImg,
         event.startTime, event.lon, event.lat, event.state);
-      await this.loadComments();
+      this.loadComments();
+      this.getJoinStatus();
     } catch (error) {
       const businessError = error as BusinessError;
       console.error(`Failed to load event details. Code: ${businessError.code}, message: ${businessError.message}`);
@@ -128,6 +133,67 @@ struct EventInfoPage {
       showText('评论添加失败');
     } finally {
       this.submittingComment = false;
+    }
+  }
+
+  private getJoinStatus(): void {
+    loginUserAction((user: User) => {
+      this.loadJoinStatus(user);
+    }, () => {
+      this.item.state = 0;
+      this.joinStatusLoading = false;
+    });
+  }
+
+  private async loadJoinStatus(user: User): Promise<void> {
+    this.joinStatusLoading = true;
+    try {
+      const response = await isJoin(user.id, this.eventId);
+      if (response.success) {
+        const state: number = parseInt(response.obj.toString());
+        this.item.state = state === 1 || state === 2 ? state : 0;
+      } else {
+        this.item.state = 0;
+      }
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to load join status. Code: ${businessError.code}, message: ${businessError.message}`);
+      this.item.state = 0;
+    } finally {
+      this.joinStatusLoading = false;
+    }
+  }
+
+  private joinEvent(): void {
+    loginUserAction((user: User) => {
+      this.updateJoinStatus(user);
+    }, () => {
+      showText('请先登录');
+    });
+  }
+
+  private async updateJoinStatus(user: User): Promise<void> {
+    if (this.joining || this.item.state === 2) {
+      return;
+    }
+
+    this.joining = true;
+    try {
+      const response = await Join(user.id, this.eventId);
+      if (!response.success) {
+        showText('操作异常');
+        return;
+      }
+
+      const joined: boolean = response.obj.toString() === 'true';
+      this.item.state = joined ? 1 : 0;
+      showText(joined ? '加入成功' : '退出成功');
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to update join status. Code: ${businessError.code}, message: ${businessError.message}`);
+      showText('操作异常');
+    } finally {
+      this.joining = false;
     }
   }
 
@@ -338,14 +404,61 @@ struct EventInfoPage {
         backgroundColor: '#F8F8F8'
       })
 
-      Button('+加入')
-        .layoutWeight(1)
-        .height(44)
-        .fontSize(16)
-        .fontColor(Color.White)
-        .backgroundColor('#FF3551')
-        .borderRadius(24)
-        .margin({ left: 12, right: 14 })
+      if (this.joinStatusLoading) {
+        Button('状态加载中')
+          .layoutWeight(1)
+          .height(44)
+          .fontSize(16)
+          .fontColor(Color.White)
+          .backgroundColor('#999999')
+          .borderRadius(24)
+          .margin({ left: 12, right: 14 })
+          .enabled(false)
+      } else if (this.item.state === 1) {
+        Button(this.joining ? '处理中' : '已加入')
+          .layoutWeight(1)
+          .height(44)
+          .fontSize(16)
+          .fontColor(Color.White)
+          .backgroundColor('#777777')
+          .borderRadius(24)
+          .margin({ left: 12, right: 14 })
+          .enabled(!this.joining)
+          .onClick(() => {
+            this.joinEvent();
+          })
+      } else if (this.item.state === 2) {
+        Button('编辑活动')
+          .layoutWeight(1)
+          .height(44)
+          .fontSize(16)
+          .fontColor(Color.White)
+          .backgroundColor('#1769FF')
+          .borderRadius(24)
+          .margin({ left: 12, right: 14 })
+          .onClick(() => {
+            router.pushUrl({
+              url: 'pages/EventEditPage',
+              params: {
+                message: 'edit',
+                data: this.item
+              }
+            });
+          })
+      } else {
+        Button(this.joining ? '处理中' : '+加入')
+          .layoutWeight(1)
+          .height(44)
+          .fontSize(16)
+          .fontColor(Color.White)
+          .backgroundColor('#FF3551')
+          .borderRadius(24)
+          .margin({ left: 12, right: 14 })
+          .enabled(!this.joining)
+          .onClick(() => {
+            this.joinEvent();
+          })
+      }
     }
     .width('100%')
     .height(72)
