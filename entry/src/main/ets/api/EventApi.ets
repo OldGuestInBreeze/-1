@@ -11,6 +11,14 @@ export function getEventList(userId: number, kw: string = ''): Promise<ResultDat
   return httpRequest(url, option);
 }
 
+export function getEventInfo(eventId: number): Promise<ResultData> {
+  const url: string = `${ServerPath.eventInfo}?eventId=${eventId}`;
+  const option: http.HttpRequestOptions = {
+    method: http.RequestMethod.GET
+  };
+  return httpRequest(url, option);
+}
+
 export function addEvent(event: Event): Promise<ResultData> {
   const option: http.HttpRequestOptions = {
     method: http.RequestMethod.POST,
