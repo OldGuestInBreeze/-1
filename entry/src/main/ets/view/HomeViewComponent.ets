@@ -109,15 +109,17 @@ export default struct HomeViewComponent {
         ForEach(typeList, (item: EventType) => {
           Column() {
             Image(item.icon)
-              .width(40)
-              .height(40)
+              .width(42)
+              .height(42)
 
             Text(item.name)
               .fontSize(14)
               .fontColor('#333333')
-              .padding({ top: 5 })
+              .margin({ top: 4 })
           }
           .layoutWeight(1)
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
           .onClick(() => {
             if (item.name === '附近') {
               router.pushUrl({
@@ -135,24 +137,36 @@ export default struct HomeViewComponent {
           })
         }, (item: EventType) => item.name)
       }
-      .width('90%')
-      .height(68)
-      .margin({ top: 10 })
+      .width('92%')
+      .height(76)
+      .padding({
+        left: 6,
+        right: 6
+      })
+      .margin({
+        top: 12,
+        bottom: 12
+      })
+      .backgroundColor('#F8FFFFFF')
+      .borderRadius(16)
 
-      WaterFlow() {
+      Grid() {
         ForEach(this.eventList, (item: Event) => {
-          FlowItem() {
+          GridItem() {
             EventComponent({
               item: item
             })
           }
         }, (item: Event) => item.id.toString())
       }
-      .layoutDirection(FlexDirection.Column)
       .columnsTemplate('1fr 1fr')
-      .columnsGap(8)
-      .rowsGap(8)
-      .width('90%')
+      .columnsGap(12)
+      .rowsGap(12)
+      .width('92%')
+      .padding({
+        bottom: 12
+      })
+      .scrollBar(BarState.Off)
       .layoutWeight(1)
     }
     .width('100%')

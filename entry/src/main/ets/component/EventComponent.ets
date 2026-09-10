@@ -10,40 +10,67 @@ export struct EventComponent {
     Column() {
       Image(`${BaseUrl}${this.item.headImg}`)
         .width('100%')
-        .constraintSize({
-          maxHeight: 240
+        .height(132)
+        .borderRadius({
+          topLeft: 12,
+          topRight: 12
         })
-        .borderRadius(10)
         .objectFit(ImageFit.Cover)
-        .onClick(() => {
-          router.pushUrl({
-            url: 'pages/EventInfoPage',
-            params: {
-              data: this.item.id,
-              message: '活动详情'
-            }
-          });
-        })
 
-      Text(this.item.name)
-        .maxLines(2)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 5 })
-        .fontColor('#333333')
-        .fontSize(16)
-        .width('90%')
-        .textAlign(TextAlign.Start)
+      Column() {
+        Text(this.item.name)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .fontColor('#262626')
+          .fontSize(15)
+          .fontWeight(FontWeight.Medium)
+          .width('100%')
+          .textAlign(TextAlign.Start)
 
-      Text(this.item.addr)
-        .maxLines(1)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 3, bottom: 5 })
-        .fontColor('#666666')
-        .fontSize(14)
-        .width('90%')
-        .textAlign(TextAlign.Start)
+        Row() {
+          Image($r('app.media.event_position'))
+            .width(14)
+            .height(14)
+            .margin({ right: 4 })
+
+          Text(this.item.addr)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .fontColor('#8A8A8A')
+            .fontSize(12)
+            .layoutWeight(1)
+            .textAlign(TextAlign.Start)
+        }
+        .width('100%')
+        .margin({ top: 6 })
+      }
+      .width('100%')
+      .padding({
+        left: 10,
+        right: 10,
+        top: 9,
+        bottom: 10
+      })
     }
     .width('100%')
+    .height(190)
     .alignItems(HorizontalAlign.Start)
+    .backgroundColor(Color.White)
+    .borderRadius(12)
+    .shadow({
+      radius: 5,
+      color: '#18000000',
+      offsetX: 0,
+      offsetY: 2
+    })
+    .onClick(() => {
+      router.pushUrl({
+        url: 'pages/EventInfoPage',
+        params: {
+          data: this.item.id,
+          message: '活动详情'
+        }
+      });
+    })
   }
 }
