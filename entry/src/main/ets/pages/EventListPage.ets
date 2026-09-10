@@ -42,6 +42,13 @@ struct EventListPage {
       return;
     }
 
+    if (!Array.isArray(response.obj)) {
+      this.eventList = [];
+      this.loadFailed = true;
+      this.loading = false;
+      return;
+    }
+
     const result = response.obj as Event[];
     const events: Event[] = [];
     result.forEach((item: Event) => {

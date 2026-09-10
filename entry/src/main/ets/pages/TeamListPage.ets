@@ -46,6 +46,13 @@ struct TeamListPage {
         return;
       }
 
+      if (!Array.isArray(response.obj)) {
+        this.teamList = [];
+        this.filteredList = [];
+        this.loadFailed = true;
+        return;
+      }
+
       const result = response.obj as EventMember[];
       const members: EventMember[] = [];
       result.forEach((item: EventMember) => {

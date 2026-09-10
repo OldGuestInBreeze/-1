@@ -38,6 +38,12 @@ struct MyEventPage {
         return;
       }
 
+      if (!Array.isArray(result.obj)) {
+        this.eventList = [];
+        showText('活动列表数据异常');
+        return;
+      }
+
       const responseList = result.obj as Event[];
       const events: Event[] = [];
       responseList.forEach((item: Event) => {

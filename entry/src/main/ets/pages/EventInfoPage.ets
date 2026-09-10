@@ -60,6 +60,11 @@ struct EventInfoPage {
         return;
       }
 
+      if (response.obj === undefined || response.obj === null) {
+        this.loadFailed = true;
+        return;
+      }
+
       const event = response.obj as Event;
       this.item = new Event(event.id, event.userId, event.name, event.intro, event.addr, event.headImg,
         event.startTime, event.lon, event.lat, event.state);
@@ -84,6 +89,11 @@ struct EventInfoPage {
     try {
       const response = await requestCommentList(this.eventId);
       if (!response.success) {
+        this.commentList = [];
+        this.commentsFailed = true;
+        return;
+      }
+      if (!Array.isArray(response.obj)) {
         this.commentList = [];
         this.commentsFailed = true;
         return;
