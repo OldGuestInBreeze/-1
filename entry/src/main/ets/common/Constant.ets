@@ -1,4 +1,4 @@
-export const BaseUrl: string = 'http://10.253.18.91:8081';
+export const BaseUrl: string = 'http://192.168.5.75:8081';
 
 export const ServerPath: Record<string, string> = {
   'login': '/user/login',
