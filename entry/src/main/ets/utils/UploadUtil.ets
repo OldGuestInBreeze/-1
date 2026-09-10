@@ -4,9 +4,10 @@ import { fileIo } from '@kit.CoreFileKit';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { BaseUrl, ServerPath } from '../common/Constant';
 import { ResultData } from './HttpRequest';
+import { showText } from './ShowUtil';
 
 interface UploadHeader {
-  body?: string;
+  body?: string | ResultData;
 }
 
 export async function selectImage(context: common.UIAbilityContext): Promise<string> {
@@ -32,6 +33,7 @@ export async function selectImage(context: common.UIAbilityContext): Promise<str
   } catch (error) {
     const businessError = error as BusinessError;
     console.error(`Failed to select image. Code: ${businessError.code}, message: ${businessError.message}`);
+    showText('图片上传失败，请检查后端服务和网络');
     return '';
   }
 }
@@ -55,33 +57,83 @@ function uploadImage(context: common.UIAbilityContext, cacheFileName: string): P
   };
 
   return new Promise<string>((resolve, reject) => {
+    let settled: boolean = false;
     request.uploadFile(context, config)
       .then((uploadTask: request.UploadTask) => {
         uploadTask.on('headerReceive', (header: object) => {
+          if (settled) {
+            return;
+          }
+
           try {
-            const bodyText = (header as UploadHeader).body;
-            if (bodyText === undefined || bodyText.length === 0) {
+            const responseBody = (header as UploadHeader).body;
+            if (responseBody === undefined) {
+              return;
+            }
+
+            let body: ResultData;
+            if (typeof responseBody === 'string') {
+              if (responseBody.length === 0) {
+                return;
+              }
+              body = JSON.parse(responseBody) as ResultData;
+            } else {
+              body = responseBody;
+            }
+            if (!body.success) {
+              settled = true;
+              reject(new Error(body.info));
+              return;
+            }
+
+            if (body.obj === undefined || body.obj === null) {
+              settled = true;
               reject(new Error('Upload response is empty'));
               return;
             }
 
-            const body = JSON.parse(bodyText) as ResultData;
-            if (!body.success) {
-              reject(new Error(body.info));
+            const imageUrl = body.obj.toString();
+            if (imageUrl.length === 0) {
+              settled = true;
+              reject(new Error('Upload response is empty'));
               return;
             }
-            resolve(body.obj.toString());
+
+            settled = true;
+            resolve(imageUrl);
           } catch (error) {
+            settled = true;
             reject(error);
           }
         });
+        uploadTask.on('complete', (taskStates: Array<request.TaskState>) => {
+          if (settled) {
+            return;
+          }
+
+          if (taskStates.length === 0 || taskStates[0].responseCode !== 0) {
+            const message = taskStates.length > 0 ? taskStates[0].message : 'Upload failed';
+            settled = true;
+            reject(new Error(message));
+            return;
+          }
+
+          settled = true;
+          reject(new Error('Upload response is empty'));
+        });
         uploadTask.on('fail', (taskStates: Array<request.TaskState>) => {
+          if (settled) {
+            return;
+          }
+
           const message = taskStates.length > 0 ? taskStates[0].message : 'Upload failed';
+          settled = true;
           reject(new Error(message));
         });
       })
       .catch((error: BusinessError) => {
         console.error(`Failed to upload image. Code: ${error.code}, message: ${error.message}`);
+        settled = true;
         reject(error);
       });
   });
