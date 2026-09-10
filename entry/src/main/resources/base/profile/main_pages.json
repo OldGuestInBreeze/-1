@@ -1,6 +1,14 @@
 {
   "src": [
     "pages/LoginPage",
-    "pages/Index"
+    "pages/RegisterPage",
+    "pages/Index",
+    "pages/UserEditPage",
+    "pages/ResetPasswordPage",
+    "pages/EventEditPage",
+    "pages/MyEventPage",
+    "pages/EventListPage",
+    "pages/EventInfoPage",
+    "pages/TeamListPage"
   ]
 }

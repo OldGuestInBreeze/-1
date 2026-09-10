@@ -1,55 +1,52 @@
-import { promptAction, router } from '@kit.ArkUI';
-import { login } from '../api/LoginApi';
+import { router } from '@kit.ArkUI';
+import { register } from '../api/LoginApi';
 import { showText } from '../utils/ShowUtil';
-import { User } from '../viewmodel/User';
 
 @Entry
 @Component
-struct LoginPage {
+struct RegisterPage {
   @State username: string = '';
   @State password: string = '';
+  @State confirmPassword: string = '';
 
-  private openHome(): void {
+  private openLogin(): void {
     router.replaceUrl({
-      url: 'pages/Index'
+      url: 'pages/LoginPage'
     });
   }
 
-  private openRegister(): void {
-    router.pushUrl({
-      url: 'pages/RegisterPage'
-    });
-  }
-
-  private async clickLogin(): Promise<void> {
+  private async clickRegister(): Promise<void> {
     const username: string = this.username.trim();
     if (username.length === 0) {
-      showText('\u8BF7\u8F93\u5165\u7528\u6237\u540D');
+      showText('请输入用户名');
       return;
     }
     if (this.password.length === 0) {
-      showText('\u8BF7\u8F93\u5165\u5BC6\u7801');
+      showText('请输入密码');
+      return;
+    }
+    if (this.confirmPassword.length === 0) {
+      showText('请再次输入密码');
+      return;
+    }
+    if (this.password !== this.confirmPassword) {
+      showText('两次输入的密码不一致');
       return;
     }
 
     try {
-      const result = await login(username, this.password);
+      const result = await register(username, this.password);
       if (!result.success) {
-        showText(result.info.length > 0 ? result.info : '\u767B\u5F55\u5931\u8D25');
+        showText(result.info.length > 0 ? result.info : '注册失败');
         return;
       }
 
-      const data = result.obj as User;
-      const user = new User(data.id, data.username, data.name, data.headImg, data.addr,
-        data.gender, data.lon, data.lat);
-      AppStorage.setOrCreate('user', user);
-      AppStorage.setOrCreate('isLogin', true);
-      showText('\u767B\u5F55\u6210\u529F', () => {
-        this.openHome();
+      showText(result.info.length > 0 ? result.info : '注册成功', () => {
+        this.openLogin();
       });
     } catch (error) {
-      console.error(`Failed to save login data: ${JSON.stringify(error)}`);
-      showText('\u767B\u5F55\u5931\u8D25');
+      console.error(`Failed to register user: ${JSON.stringify(error)}`);
+      showText('注册失败');
     }
   }
 
@@ -61,15 +58,15 @@ struct LoginPage {
         .objectFit(ImageFit.Fill)
 
       Column() {
-        Text('随便看看')
+        Text('返回登录')
           .fontSize(12)
           .fontColor('#777777')
           .alignSelf(ItemAlign.End)
           .onClick(() => {
-            this.openHome();
+            this.openLogin();
           })
 
-        Text('欢迎来到兴趣小队')
+        Text('注册兴趣小队账号')
           .fontSize(18)
           .fontWeight(FontWeight.Medium)
           .fontColor('#171717')
@@ -77,7 +74,7 @@ struct LoginPage {
           .margin({ top: 27, left: 14 })
 
         TextInput({
-          placeholder: '用户名',
+          placeholder: '请输入用户名',
           text: this.username
         })
           .type(InputType.Normal)
@@ -101,7 +98,7 @@ struct LoginPage {
           })
 
         TextInput({
-          placeholder: '密码',
+          placeholder: '请输入密码',
           text: this.password
         })
           .type(InputType.Password)
@@ -125,36 +122,42 @@ struct LoginPage {
             this.password = value;
           })
 
-        Button('登录', { type: ButtonType.Capsule })
+        TextInput({
+          placeholder: '请再次输入密码',
+          text: this.confirmPassword
+        })
+          .type(InputType.Password)
+          .showPasswordIcon(true)
+          .height(36)
+          .fontSize(13)
+          .placeholderFont({ size: 13 })
+          .fontColor('#222222')
+          .placeholderColor('#777777')
+          .backgroundColor(Color.White)
+          .borderRadius(20)
+          .padding({ left: 14, right: 10 })
+          .shadow({
+            radius: 8,
+            color: '#22000000',
+            offsetX: 0,
+            offsetY: 3
+          })
+          .margin({ top: 20 })
+          .onChange((value: string) => {
+            this.confirmPassword = value;
+          })
+
+        Button('注册', { type: ButtonType.Capsule })
           .width('88%')
           .height(31)
           .fontSize(13)
           .fontColor(Color.White)
           .fontWeight(FontWeight.Normal)
           .backgroundColor('#FF3B5C')
-          .margin({ top: 15 })
+          .margin({ top: 18 })
           .onClick(() => {
-            this.clickLogin();
+            this.clickRegister();
           })
-
-        Row() {
-          Text('去注册→')
-            .fontSize(12)
-            .fontColor('#555555')
-            .onClick(() => {
-              this.openRegister();
-            })
-
-          Text('忘记密码')
-            .fontSize(12)
-            .fontColor('#555555')
-            .onClick(() => {
-              promptAction.showToast({ message: '请联系管理员重置密码' });
-            })
-        }
-        .width('100%')
-        .justifyContent(FlexAlign.SpaceBetween)
-        .margin({ top: 14 })
       }
       .width('100%')
       .padding({ top: 30, left: 20, right: 20 })
