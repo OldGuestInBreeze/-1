@@ -1,4 +1,5 @@
 import HomeViewComponent from '../view/HomeViewComponent';
+import EventViewComponent from '../view/EventViewComponent';
 import { UserInfoViewComponent } from '../view/UserInfoViewComponent';
 
 @Entry
@@ -40,7 +41,7 @@ struct Index {
     }) {
       TabContent() {
         HomeViewComponent({
-          pageVisible: this.pageVisible
+          pageVisible: this.pageVisible && this.selectedIndex === 0
         })
       }
       .tabBar(this.tabBarItem(
@@ -51,12 +52,9 @@ struct Index {
       ))
 
       TabContent() {
-        Column() {
-          Blank()
-        }
-          .width('100%')
-          .height('100%')
-          .backgroundColor(Color.White)
+        EventViewComponent({
+          pageVisible: this.pageVisible && this.selectedIndex === 1
+        })
       }
       .tabBar(this.tabBarItem(
         1,

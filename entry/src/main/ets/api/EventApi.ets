@@ -74,6 +74,14 @@ export function getMyEventList(userId: number): Promise<ResultData> {
   return httpRequest(url, option);
 }
 
+export function getMyTeamList(userId: number): Promise<ResultData> {
+  const url: string = `${ServerPath.teamList}?userId=${userId}`;
+  const option: http.HttpRequestOptions = {
+    method: http.RequestMethod.GET
+  };
+  return httpRequest(url, option);
+}
+
 export function editEvent(event: Event): Promise<ResultData> {
   const option: http.HttpRequestOptions = {
     method: http.RequestMethod.PUT,
