@@ -12,6 +12,7 @@ import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
 import { EventComment } from '../viewmodel/EventComment';
+import { Location } from '../viewmodel/Location';
 import { RouterParam } from '../viewmodel/RouterParam';
 import { User } from '../viewmodel/User';
 
@@ -205,6 +206,24 @@ struct EventInfoPage {
     } finally {
       this.joining = false;
     }
+  }
+
+  private openNavigation(): void {
+    if (this.item.lat === 0 && this.item.lon === 0) {
+      showText('该活动暂无可导航的位置');
+      return;
+    }
+
+    const location: Location = {
+      lat: this.item.lat,
+      lng: this.item.lon
+    };
+    router.pushUrl({
+      url: 'pages/NavigationPage',
+      params: {
+        data: location
+      }
+    });
   }
 
   @Builder
@@ -529,6 +548,9 @@ struct EventInfoPage {
       .margin({ top: 12 })
       .backgroundColor('#F5F5F5')
       .borderRadius(5)
+      .onClick(() => {
+        this.openNavigation();
+      })
 
       Text(this.item.intro)
         .width('100%')

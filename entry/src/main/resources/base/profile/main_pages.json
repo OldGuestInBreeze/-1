@@ -12,6 +12,7 @@
     "pages/TeamListPage",
     "pages/ApplyPage",
     "pages/ChatPage",
-    "pages/MapPage"
+    "pages/MapPage",
+    "pages/NavigationPage"
   ]
 }
