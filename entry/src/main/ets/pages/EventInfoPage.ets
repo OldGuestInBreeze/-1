@@ -8,6 +8,7 @@ import {
   isJoin
 } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
@@ -229,13 +230,7 @@ struct EventInfoPage {
   @Builder
   PageHeader() {
     Row() {
-      Image($r('app.media.ic_return_white'))
-        .width(30)
-        .height(30)
-        .objectFit(ImageFit.Contain)
-        .onClick(() => {
-          router.back();
-        })
+      PageBackButton({ icon: $r('app.media.ic_return_white') })
 
       Text('活动详情')
         .fontSize(21)
@@ -243,7 +238,7 @@ struct EventInfoPage {
         .fontColor(Color.White)
 
       Blank()
-        .width(30)
+        .width(44)
     }
     .width('100%')
     .height(82)

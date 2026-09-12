@@ -3,6 +3,7 @@ import { router } from '@kit.ArkUI';
 import { webview } from '@kit.ArkWeb';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { getCurrentLocationInfo, reqLocationPermissions } from '../utils/LocationUtil';
 import { showText } from '../utils/ShowUtil';
 import { Location } from '../viewmodel/Location';
@@ -82,13 +83,7 @@ struct NavigationPage {
   build() {
     Column() {
       Row() {
-        Image($r('app.media.ic_back'))
-          .width(28)
-          .height(28)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back();
-          })
+        PageBackButton()
 
         Text('活动导航')
           .layoutWeight(1)
@@ -98,7 +93,7 @@ struct NavigationPage {
           .textAlign(TextAlign.Center)
 
         Blank()
-          .width(28)
+          .width(44)
       }
       .width('100%')
       .height(54)

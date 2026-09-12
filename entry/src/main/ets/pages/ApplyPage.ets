@@ -1,6 +1,6 @@
-import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { getApplyList, processApply } from '../api/FriendApi';
+import { PageBackButton } from '../component/PageBackButton';
 import { BaseUrl } from '../common/Constant';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
@@ -13,7 +13,7 @@ struct ApplyPage {
   @State loading: boolean = false;
   @State loadFailed: boolean = false;
 
-  aboutToAppear(): void {
+  onPageShow(): void {
     this.loadApplications();
   }
 
@@ -68,13 +68,7 @@ struct ApplyPage {
   build() {
     Column() {
       Row() {
-        Image($r('app.media.ic_back'))
-          .width(24)
-          .height(24)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back();
-          })
+        PageBackButton()
 
         Text('申请列表')
           .layoutWeight(1)
@@ -84,7 +78,7 @@ struct ApplyPage {
           .textAlign(TextAlign.Center)
 
         Blank()
-          .width(24)
+          .width(44)
       }
       .width('100%')
       .height(54)

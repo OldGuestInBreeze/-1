@@ -3,6 +3,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { getEventInfo, getEventMemberList, isJoin, Join } from '../api/EventApi';
 import { getFriendStatus, sendApply } from '../api/FriendApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
@@ -151,20 +152,39 @@ struct TeamListPage {
     }
   }
 
-  private async sendFriendApplication(): Promise<void> {
-    if (this.applyingFriend || this.userId <= 0 || this.selectedMember.userId <= 0) {
+  private sendFriendApplication(): void {
+    if (this.applyingFriend) {
+      return;
+    }
+
+    if (this.selectedMember.userId <= 0) {
+      showText('好友信息无效，请关闭后重新选择');
+      return;
+    }
+
+    loginUserAction((user: User) => {
+      this.userId = user.id;
+      this.submitFriendApplication(user.id, this.selectedMember.userId);
+    }, () => {
+      showText('请先登录');
+    });
+  }
+
+  private async submitFriendApplication(userId: number, friendId: number): Promise<void> {
+    if (userId === friendId) {
+      showText('不能添加自己为好友');
       return;
     }
 
     this.applyingFriend = true;
     try {
-      const response = await sendApply(this.userId, this.selectedMember.userId);
+      const response = await sendApply(userId, friendId);
       if (!response.success) {
         showText(response.info.length > 0 ? `申请失败：${response.info}` : '好友申请发送失败');
         return;
       }
 
-      const memberId = this.selectedMember.userId;
+      const memberId = friendId;
       this.selectedMember = new EventMember(
         memberId,
         this.selectedMember.name,
@@ -178,6 +198,7 @@ struct TeamListPage {
         }
       });
       this.filterMembers(this.keyword);
+      this.eventMemberShow = false;
       showText('好友申请已发送');
     } catch (error) {
       const businessError = error as BusinessError;
@@ -416,15 +437,24 @@ struct TeamListPage {
 
   build() {
     Column() {
-      Text('活动成员')
-        .width('100%')
-        .height(54)
-        .fontSize(23)
-        .fontColor('#222222')
-        .fontWeight(FontWeight.Medium)
-        .textAlign(TextAlign.Center)
-        .backgroundColor(Color.White)
-        .shadow(ShadowStyle.OUTER_DEFAULT_XS)
+      Row() {
+        PageBackButton()
+
+        Text('活动成员')
+          .layoutWeight(1)
+          .fontSize(23)
+          .fontColor('#222222')
+          .fontWeight(FontWeight.Medium)
+          .textAlign(TextAlign.Center)
+
+        Blank()
+          .width(44)
+      }
+      .width('100%')
+      .height(54)
+      .padding({ left: 8, right: 8 })
+      .backgroundColor(Color.White)
+      .shadow(ShadowStyle.OUTER_DEFAULT_XS)
 
       Search({
         placeholder: '搜索成员',

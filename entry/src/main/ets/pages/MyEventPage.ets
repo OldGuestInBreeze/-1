@@ -2,6 +2,7 @@ import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { deleteEvent, getMyEventList } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
@@ -187,19 +188,13 @@ struct MyEventPage {
   build() {
     Column() {
       Row() {
-        Image($r('app.media.ic_back'))
-          .width(28)
-          .height(28)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back();
-          })
+        PageBackButton({ icon: $r('app.media.ic_return_white') })
 
         Text('管理活动')
           .fontSize(23)
           .fontWeight(FontWeight.Medium)
           .fontColor(Color.White)
-          .margin({ left: 20 })
+          .margin({ left: 8 })
 
         Blank()
       }

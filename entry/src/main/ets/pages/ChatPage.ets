@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { addChatList, getChatList } from '../api/ChatApi';
+import { PageBackButton } from '../component/PageBackButton';
 import { BaseUrl } from '../common/Constant';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
@@ -246,13 +247,7 @@ struct ChatPage {
   build() {
     Column() {
       Row() {
-        Image($r('app.media.ic_return_white'))
-          .width(24)
-          .height(24)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back();
-          })
+        PageBackButton({ icon: $r('app.media.ic_return_white') })
 
         Text(this.targetUser.name.length > 0 ? this.targetUser.name : this.targetUser.username)
           .layoutWeight(1)
@@ -262,7 +257,7 @@ struct ChatPage {
           .textAlign(TextAlign.Center)
 
         Blank()
-          .width(24)
+          .width(44)
       }
       .width('100%')
       .height(54)
