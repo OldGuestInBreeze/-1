@@ -8,10 +8,12 @@ import {
   isJoin
 } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
 import { EventComment } from '../viewmodel/EventComment';
+import { Location } from '../viewmodel/Location';
 import { RouterParam } from '../viewmodel/RouterParam';
 import { User } from '../viewmodel/User';
 
@@ -60,6 +62,11 @@ struct EventInfoPage {
         return;
       }
 
+      if (response.obj === undefined || response.obj === null) {
+        this.loadFailed = true;
+        return;
+      }
+
       const event = response.obj as Event;
       this.item = new Event(event.id, event.userId, event.name, event.intro, event.addr, event.headImg,
         event.startTime, event.lon, event.lat, event.state);
@@ -84,6 +91,11 @@ struct EventInfoPage {
     try {
       const response = await requestCommentList(this.eventId);
       if (!response.success) {
+        this.commentList = [];
+        this.commentsFailed = true;
+        return;
+      }
+      if (!Array.isArray(response.obj)) {
         this.commentList = [];
         this.commentsFailed = true;
         return;
@@ -197,16 +209,28 @@ struct EventInfoPage {
     }
   }
 
+  private openNavigation(): void {
+    if (this.item.lat === 0 && this.item.lon === 0) {
+      showText('该活动暂无可导航的位置');
+      return;
+    }
+
+    const location: Location = {
+      lat: this.item.lat,
+      lng: this.item.lon
+    };
+    router.pushUrl({
+      url: 'pages/NavigationPage',
+      params: {
+        data: location
+      }
+    });
+  }
+
   @Builder
   PageHeader() {
     Row() {
-      Image($r('app.media.ic_return_white'))
-        .width(30)
-        .height(30)
-        .objectFit(ImageFit.Contain)
-        .onClick(() => {
-          router.back();
-        })
+      PageBackButton({ icon: $r('app.media.ic_return_white') })
 
       Text('活动详情')
         .fontSize(21)
@@ -214,7 +238,7 @@ struct EventInfoPage {
         .fontColor(Color.White)
 
       Blank()
-        .width(30)
+        .width(44)
     }
     .width('100%')
     .height(82)
@@ -519,6 +543,9 @@ struct EventInfoPage {
       .margin({ top: 12 })
       .backgroundColor('#F5F5F5')
       .borderRadius(5)
+      .onClick(() => {
+        this.openNavigation();
+      })
 
       Text(this.item.intro)
         .width('100%')
@@ -567,7 +594,7 @@ struct EventInfoPage {
                 if (this.eventId > 0) {
                   this.loadEvent();
                 } else {
-                  router.back();
+                  this.getUIContext().getRouter().back();
                 }
               })
           }

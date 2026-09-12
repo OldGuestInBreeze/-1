@@ -50,6 +50,11 @@ export default struct HomeViewComponent {
       return;
     }
 
+    if (!Array.isArray(response.obj)) {
+      this.eventList = [];
+      return;
+    }
+
     const result = response.obj as Event[];
     const events: Event[] = [];
     result.forEach((item: Event) => {

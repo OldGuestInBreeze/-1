@@ -3,6 +3,7 @@ import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { addEvent as requestAddEvent, editEvent as requestEditEvent } from '../api/EventApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { getCurrentLocationInfo, reqLocationPermissions } from '../utils/LocationUtil';
 import { showText } from '../utils/ShowUtil';
 import { selectImage } from '../utils/UploadUtil';
@@ -29,7 +30,7 @@ struct EventEditPage {
     if (this.type === 'edit') {
       if (param === undefined || param.data === undefined || param.data.id <= 0) {
         showText('活动信息无效', () => {
-          router.back();
+          this.getUIContext().getRouter().back();
         });
         return;
       }
@@ -46,7 +47,7 @@ struct EventEditPage {
       }
     }, () => {
       showText('请先登录', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     });
   }
@@ -122,7 +123,7 @@ struct EventEditPage {
       }
 
       showText(result.info.length > 0 ? result.info : (this.type === 'edit' ? '修改成功' : '添加成功'), () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     } catch (error) {
       const businessError = error as BusinessError;
@@ -138,13 +139,7 @@ struct EventEditPage {
     Stack() {
       Column() {
         Row() {
-          Image($r('app.media.ic_back'))
-            .width(30)
-            .height(30)
-            .objectFit(ImageFit.Contain)
-            .onClick(() => {
-              router.back();
-            })
+          PageBackButton()
 
           Blank()
 

@@ -7,10 +7,10 @@ export class EventMember {
   apply: number;
 
   constructor(userId: number, name: string, addr: string, headImg: string, apply: number) {
-    this.userId = userId;
-    this.name = name;
-    this.addr = addr;
-    this.headImg = headImg;
-    this.apply = apply;
+    this.userId = userId === undefined || userId === null ? 0 : userId;
+    this.name = name === undefined || name === null ? '' : name;
+    this.addr = addr === undefined || addr === null ? '' : addr;
+    this.headImg = headImg === undefined || headImg === null ? '' : headImg;
+    this.apply = apply === undefined || apply === null ? 0 : apply;
   }
 }

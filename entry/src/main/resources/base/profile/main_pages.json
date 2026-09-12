@@ -9,6 +9,10 @@
     "pages/MyEventPage",
     "pages/EventListPage",
     "pages/EventInfoPage",
-    "pages/TeamListPage"
+    "pages/TeamListPage",
+    "pages/ApplyPage",
+    "pages/ChatPage",
+    "pages/MapPage",
+    "pages/NavigationPage"
   ]
 }
