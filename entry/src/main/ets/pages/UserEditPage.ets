@@ -1,5 +1,4 @@
 import { common } from '@kit.AbilityKit';
-import { router } from '@kit.ArkUI';
 import { updateUserInfo } from '../api/UserApi';
 import { BaseUrl } from '../common/Constant';
 import { PageBackButton } from '../component/PageBackButton';
@@ -66,7 +65,7 @@ struct UserEditPage {
 
       AppStorage.setOrCreate('user', updatedUser);
       showText(result.info.length > 0 ? result.info : '更新成功', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     } catch (error) {
       console.error(`Failed to update user information: ${JSON.stringify(error)}`);

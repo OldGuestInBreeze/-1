@@ -32,7 +32,7 @@ struct NavigationPage {
       (param.data.lat === 0 && param.data.lng === 0)) {
       this.navigationFailed = true;
       showText('活动位置信息无效', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
       return;
     }

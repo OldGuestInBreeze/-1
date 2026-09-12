@@ -20,7 +20,7 @@ struct MyEventPage {
       this.loadEvents(user.id);
     }, () => {
       showText('请先登录', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     });
   }

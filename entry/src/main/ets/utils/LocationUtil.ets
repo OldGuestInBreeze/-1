@@ -48,10 +48,12 @@ export async function getCurrentLocationInfo(): Promise<LocationInfo> {
   try {
     location = await geoLocationManager.getCurrentLocation(request);
   } catch (error) {
+    const currentLocationError = error as BusinessError;
     try {
       location = geoLocationManager.getLastLocation();
-    } catch (lastLocationError) {
-      throw error;
+    } catch {
+      throw new Error(`Failed to obtain location. Code: ${currentLocationError.code}, ` +
+        `message: ${currentLocationError.message}`);
     }
   }
 

@@ -1,20 +1,19 @@
-import { router } from '@kit.ArkUI';
-
-function returnToPreviousPage(): void {
-  const pageCount = parseInt(router.getLength());
-  if (pageCount > 1) {
-    router.back();
-    return;
-  }
-
-  router.replaceUrl({
-    url: 'pages/Index'
-  });
-}
-
 @Component
 export struct PageBackButton {
   @Prop icon: Resource = $r('app.media.ic_back');
+
+  private returnToPreviousPage(): void {
+    const pageRouter = this.getUIContext().getRouter();
+    const pageCount = parseInt(pageRouter.getLength());
+    if (pageCount > 1) {
+      pageRouter.back();
+      return;
+    }
+
+    pageRouter.replaceUrl({
+      url: 'pages/Index'
+    });
+  }
 
   build() {
     Button({ type: ButtonType.Circle }) {
@@ -28,7 +27,7 @@ export struct PageBackButton {
     .padding(0)
     .backgroundColor(Color.Transparent)
     .onClick(() => {
-      returnToPreviousPage();
+      this.returnToPreviousPage();
     })
   }
 }

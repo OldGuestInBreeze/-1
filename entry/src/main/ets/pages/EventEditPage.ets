@@ -30,7 +30,7 @@ struct EventEditPage {
     if (this.type === 'edit') {
       if (param === undefined || param.data === undefined || param.data.id <= 0) {
         showText('活动信息无效', () => {
-          router.back();
+          this.getUIContext().getRouter().back();
         });
         return;
       }
@@ -47,7 +47,7 @@ struct EventEditPage {
       }
     }, () => {
       showText('请先登录', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     });
   }
@@ -123,7 +123,7 @@ struct EventEditPage {
       }
 
       showText(result.info.length > 0 ? result.info : (this.type === 'edit' ? '修改成功' : '添加成功'), () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     } catch (error) {
       const businessError = error as BusinessError;

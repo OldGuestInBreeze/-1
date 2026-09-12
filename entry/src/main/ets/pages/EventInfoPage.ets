@@ -594,7 +594,7 @@ struct EventInfoPage {
                 if (this.eventId > 0) {
                   this.loadEvent();
                 } else {
-                  router.back();
+                  this.getUIContext().getRouter().back();
                 }
               })
           }

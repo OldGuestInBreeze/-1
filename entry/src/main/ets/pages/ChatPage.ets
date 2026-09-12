@@ -37,7 +37,7 @@ struct ChatPage {
       param.data.id === undefined || param.data.id === null || param.data.id <= 0) {
       this.loadFailed = true;
       showText('聊天对象信息无效', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
       return;
     }
@@ -60,7 +60,7 @@ struct ChatPage {
       this.startPolling();
     }, () => {
       showText('请先登录', () => {
-        router.back();
+        this.getUIContext().getRouter().back();
       });
     });
   }
