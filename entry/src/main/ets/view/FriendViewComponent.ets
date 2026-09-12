@@ -1,8 +1,8 @@
-import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { getApplyList, getFriendList } from '../api/FriendApi';
 import { NoLoginComponent } from '../component/NoLoginComponent';
 import { BaseUrl } from '../common/Constant';
+import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { User } from '../viewmodel/User';
 
@@ -91,19 +91,32 @@ export struct FriendViewComponent {
     }
   }
 
-  private openApplications(): void {
-    router.pushUrl({
-      url: 'pages/ApplyPage'
-    });
+  private async openApplications(): Promise<void> {
+    try {
+      await this.getUIContext().getRouter().pushUrl({
+        url: 'pages/ApplyPage'
+      });
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to open friend applications. Code: ${businessError.code}, ` +
+        `message: ${businessError.message}`);
+      showText('申请列表打开失败');
+    }
   }
 
-  private openChat(item: User): void {
-    router.pushUrl({
-      url: 'pages/ChatPage',
-      params: {
-        data: item
-      }
-    });
+  private async openChat(item: User): Promise<void> {
+    try {
+      await this.getUIContext().getRouter().pushUrl({
+        url: 'pages/ChatPage',
+        params: {
+          data: item
+        }
+      });
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to open chat. Code: ${businessError.code}, message: ${businessError.message}`);
+      showText('聊天页面打开失败');
+    }
   }
 
   @Builder
@@ -220,21 +233,25 @@ export struct FriendViewComponent {
             .fontWeight(FontWeight.Medium)
             .textAlign(TextAlign.Center)
 
-          Badge({
-            count: this.applyList.length,
-            style: {
-              badgeSize: 14,
-              badgeColor: '#FA2A2D',
-              fontSize: 10
+          Button({ type: ButtonType.Circle }) {
+            Badge({
+              count: this.applyList.length,
+              style: {
+                badgeSize: 14,
+                badgeColor: '#FA2A2D',
+                fontSize: 10
+              }
+            }) {
+              Image($r('app.media.ic_bell_normal'))
+                .width(26)
+                .height(26)
+                .objectFit(ImageFit.Contain)
             }
-          }) {
-            Image($r('app.media.ic_bell_normal'))
-              .width(26)
-              .height(26)
-              .objectFit(ImageFit.Contain)
           }
-          .width(50)
-          .height(40)
+          .width(44)
+          .height(44)
+          .padding(0)
+          .backgroundColor(Color.Transparent)
           .onClick(() => {
             this.openApplications();
           })
