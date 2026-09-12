@@ -257,8 +257,8 @@ export struct FriendViewComponent {
           })
         }
         .width('100%')
-        .height(54)
-        .padding({ left: 12, right: 12 })
+        .height(78)
+        .padding({ top: 24, left: 12, right: 12 })
         .backgroundColor(Color.White)
         .shadow(ShadowStyle.OUTER_DEFAULT_XS)
 
