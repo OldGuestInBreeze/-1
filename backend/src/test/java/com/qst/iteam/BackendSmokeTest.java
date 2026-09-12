@@ -77,6 +77,41 @@ class BackendSmokeTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.obj").value(0));
 
+        mockMvc.perform(post("/friend/sendApply")
+                        .param("userId", Long.toString(firstUserId))
+                        .param("friendId", Long.toString(secondUserId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        mockMvc.perform(get("/friend/status")
+                        .param("userId", Long.toString(firstUserId))
+                        .param("memberId", Long.toString(secondUserId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.obj").value(2));
+
+        mockMvc.perform(get("/friend/applyList")
+                        .param("userId", Long.toString(secondUserId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.obj[0].id").value(firstUserId));
+
+        mockMvc.perform(post("/friend/processApply")
+                        .param("userId", Long.toString(secondUserId))
+                        .param("friendId", Long.toString(firstUserId))
+                        .param("apply", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        mockMvc.perform(get("/friend/status")
+                        .param("userId", Long.toString(firstUserId))
+                        .param("memberId", Long.toString(secondUserId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.obj").value(1));
+
+        mockMvc.perform(get("/friend/getFriendList")
+                        .param("userId", Long.toString(firstUserId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.obj[0].id").value(secondUserId));
+
         mockMvc.perform(post("/chat/insert")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""

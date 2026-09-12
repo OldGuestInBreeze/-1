@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { getEventInfo, getEventMemberList, isJoin, Join } from '../api/EventApi';
+import { getFriendStatus, sendApply } from '../api/FriendApi';
 import { BaseUrl } from '../common/Constant';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
@@ -21,6 +22,7 @@ struct TeamListPage {
   @State memberAddShow: boolean = false;
   @State memberIds: string = '';
   @State addingMember: boolean = false;
+  @State applyingFriend: boolean = false;
   @State isOwner: boolean = false;
   @State selectedMember: EventMember = new EventMember(0, '', '', '', 0);
   private eventId: number = 0;
@@ -119,6 +121,72 @@ struct TeamListPage {
   private showMember(item: EventMember): void {
     this.selectedMember = item;
     this.eventMemberShow = true;
+    this.refreshFriendStatus(item.userId);
+  }
+
+  private async refreshFriendStatus(memberId: number): Promise<void> {
+    if (this.userId <= 0 || memberId <= 0 || this.userId === memberId) {
+      return;
+    }
+
+    try {
+      const response = await getFriendStatus(this.userId, memberId);
+      if (!response.success || response.obj === undefined || response.obj === null) {
+        return;
+      }
+
+      const status = parseInt(response.obj.toString());
+      if (status >= 0 && status <= 2 && this.selectedMember.userId === memberId) {
+        this.selectedMember = new EventMember(
+          this.selectedMember.userId,
+          this.selectedMember.name,
+          this.selectedMember.addr,
+          this.selectedMember.headImg,
+          status
+        );
+      }
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to load friend status. Code: ${businessError.code}, message: ${businessError.message}`);
+    }
+  }
+
+  private async sendFriendApplication(): Promise<void> {
+    if (this.applyingFriend || this.userId <= 0 || this.selectedMember.userId <= 0) {
+      return;
+    }
+
+    this.applyingFriend = true;
+    try {
+      const response = await sendApply(this.userId, this.selectedMember.userId);
+      if (!response.success) {
+        showText(response.info.length > 0 ? `申请失败：${response.info}` : '好友申请发送失败');
+        return;
+      }
+
+      const memberId = this.selectedMember.userId;
+      this.selectedMember = new EventMember(
+        memberId,
+        this.selectedMember.name,
+        this.selectedMember.addr,
+        this.selectedMember.headImg,
+        2
+      );
+      this.teamList.forEach((item: EventMember) => {
+        if (item.userId === memberId) {
+          item.apply = 2;
+        }
+      });
+      this.filterMembers(this.keyword);
+      showText('好友申请已发送');
+    } catch (error) {
+      const businessError = error as BusinessError;
+      console.error(`Failed to send friend application. Code: ${businessError.code}, ` +
+        `message: ${businessError.message}`);
+      showText('好友申请发送失败');
+    } finally {
+      this.applyingFriend = false;
+    }
   }
 
   private openChat(item: EventMember): void {
@@ -304,11 +372,15 @@ struct TeamListPage {
             .margin({ top: 20 })
             .enabled(false)
         } else {
-          Button('加好友')
+          Button(this.applyingFriend ? '发送中' : '加好友')
             .height(42)
             .fontSize(16)
             .backgroundColor('#FF3551')
             .margin({ top: 20 })
+            .enabled(!this.applyingFriend)
+            .onClick(() => {
+              this.sendFriendApplication();
+            })
         }
       }
     }
