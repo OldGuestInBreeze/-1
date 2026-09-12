@@ -34,6 +34,6 @@ public class EventCommentController {
             throw new IllegalArgumentException("请求字段缺失");
         }
         eventService.addComment(comment);
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 }

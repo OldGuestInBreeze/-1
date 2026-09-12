@@ -18,7 +18,7 @@ Maven 工程，但这里保留了客户端正在调用的接口和响应结构�
 3. 在本目录构建：
 
    ```powershell
-   mvn clean package
+   mvn -s maven-settings.xml clean package
    ```
 
 4. 双击 `scripts\start-backend.bat`，按提示输入 MySQL 密码。密码只会进入当前

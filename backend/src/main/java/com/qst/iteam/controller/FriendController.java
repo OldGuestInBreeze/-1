@@ -28,7 +28,7 @@ public class FriendController {
     @PostMapping("/sendApply")
     public ApiResponse<Void> sendApply(@RequestParam Long userId, @RequestParam Long friendId) {
         friendService.sendApplication(userId, friendId);
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 
     @PostMapping("/processApply")
@@ -38,7 +38,7 @@ public class FriendController {
             @RequestParam Integer apply
     ) {
         friendService.processApplication(userId, friendId, apply);
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 
     @GetMapping("/applyList")

@@ -58,7 +58,7 @@ public class UserController {
             throw new IllegalArgumentException("请求字段缺失");
         }
         userService.updatePassword(user.id(), user.password());
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 
     private void requireCredentials(UserPayload user) {

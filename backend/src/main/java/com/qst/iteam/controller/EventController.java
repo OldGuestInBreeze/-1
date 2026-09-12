@@ -60,7 +60,7 @@ public class EventController {
     @DeleteMapping("/delete")
     public ApiResponse<Void> delete(@RequestParam Long eventId) {
         eventService.delete(eventId);
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 
     @GetMapping("/recommend")

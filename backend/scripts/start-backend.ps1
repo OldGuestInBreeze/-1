@@ -1,16 +1,22 @@
 $ErrorActionPreference = 'Stop'
 
-$backendRoot = Split-Path -Parent $PSScriptRoot
-$jar = Get-ChildItem -Path (Join-Path $backendRoot 'target') -Filter '*.jar' -File |
-    Where-Object { $_.Name -notlike '*.original' } |
-    Select-Object -First 1
+$packagedJar = Join-Path $PSScriptRoot 'iteam-backend.jar'
+if (Test-Path $packagedJar) {
+    $backendRoot = $PSScriptRoot
+    $jar = Get-Item $packagedJar
+} else {
+    $backendRoot = Split-Path -Parent $PSScriptRoot
+    $jar = Get-ChildItem -Path (Join-Path $backendRoot 'target') -Filter '*.jar' -File |
+        Where-Object { $_.Name -notlike '*.original' } |
+        Select-Object -First 1
+}
 
 if ($null -eq $jar) {
-    throw '未找到后端 JAR，请先在 backend 目录执行 mvn clean package。'
+    throw 'Runnable JAR not found. Run mvn clean package in the backend directory first.'
 }
 
 if ([string]::IsNullOrWhiteSpace($env:DB_PASSWORD)) {
-    $securePassword = Read-Host '请输入 MySQL 8.0 root 密码' -AsSecureString
+    $securePassword = Read-Host 'Enter the MySQL 8.0 root password' -AsSecureString
     $pointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
     try {
         $env:DB_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($pointer)

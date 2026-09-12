@@ -6,7 +6,7 @@ public record ApiResponse<T>(boolean success, String info, T obj) {
         return new ApiResponse<>(true, "请求成功", obj);
     }
 
-    public static ApiResponse<Void> success() {
+    public static ApiResponse<Void> successWithoutBody() {
         return new ApiResponse<>(true, "请求成功", null);
     }
 

@@ -46,6 +46,6 @@ public class ChatController {
             @RequestParam(required = false) Long userIdTo
     ) {
         chatService.hide(chatId, userIdFrom, userIdTo);
-        return ApiResponse.success();
+        return ApiResponse.successWithoutBody();
     }
 }
