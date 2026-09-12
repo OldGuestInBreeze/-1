@@ -11,6 +11,7 @@
     "pages/EventInfoPage",
     "pages/TeamListPage",
     "pages/ApplyPage",
-    "pages/ChatPage"
+    "pages/ChatPage",
+    "pages/MapPage"
   ]
 }
