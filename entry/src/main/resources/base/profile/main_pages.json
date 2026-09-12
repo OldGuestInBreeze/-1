@@ -10,6 +10,7 @@
     "pages/EventListPage",
     "pages/EventInfoPage",
     "pages/TeamListPage",
-    "pages/ApplyPage"
+    "pages/ApplyPage",
+    "pages/ChatPage"
   ]
 }

@@ -121,6 +121,17 @@ struct TeamListPage {
     this.eventMemberShow = true;
   }
 
+  private openChat(item: EventMember): void {
+    this.eventMemberShow = false;
+    const targetUser = new User(item.userId, item.name, item.name, item.headImg, item.addr, '', 0, 0);
+    router.pushUrl({
+      url: 'pages/ChatPage',
+      params: {
+        data: targetUser
+      }
+    });
+  }
+
   private parseMemberIds(): number[] {
     const values = this.memberIds.replaceAll('，', ',').replaceAll(' ', ',').split(',');
     const memberIds: number[] = [];
@@ -282,6 +293,9 @@ struct TeamListPage {
             .fontSize(16)
             .backgroundColor('#2ECC71')
             .margin({ top: 20 })
+            .onClick(() => {
+              this.openChat(this.selectedMember);
+            })
         } else if (this.selectedMember.apply === 2) {
           Button('已申请')
             .height(42)

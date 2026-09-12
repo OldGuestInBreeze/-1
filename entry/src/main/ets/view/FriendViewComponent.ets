@@ -97,6 +97,15 @@ export struct FriendViewComponent {
     });
   }
 
+  private openChat(item: User): void {
+    router.pushUrl({
+      url: 'pages/ChatPage',
+      params: {
+        data: item
+      }
+    });
+  }
+
   @Builder
   FriendCard(item: User) {
     Row() {
@@ -131,14 +140,68 @@ export struct FriendViewComponent {
         }
         .width('100%')
         .margin({ top: 9 })
+
+        Row() {
+          Row() {
+            Image($r('app.media.ic_chat'))
+              .width(17)
+              .height(17)
+
+            Text('聊天')
+              .fontSize(12)
+              .fontColor('#444444')
+              .margin({ left: 3 })
+          }
+          .height(29)
+          .padding({ left: 9, right: 9 })
+          .borderRadius(15)
+          .border({ width: 1, color: '#EEEEEE' })
+          .onClick(() => {
+            this.openChat(item);
+          })
+
+          Row() {
+            Image($r('app.media.ic_phone'))
+              .width(17)
+              .height(17)
+
+            Text('电话')
+              .fontSize(12)
+              .fontColor('#777777')
+              .margin({ left: 3 })
+          }
+          .height(29)
+          .padding({ left: 9, right: 9 })
+          .borderRadius(15)
+          .border({ width: 1, color: '#EEEEEE' })
+          .margin({ left: 8 })
+
+          Row() {
+            Image($r('app.media.ic_email'))
+              .width(17)
+              .height(17)
+
+            Text('邮箱')
+              .fontSize(12)
+              .fontColor('#777777')
+              .margin({ left: 3 })
+          }
+          .height(29)
+          .padding({ left: 9, right: 9 })
+          .borderRadius(15)
+          .border({ width: 1, color: '#EEEEEE' })
+          .margin({ left: 8 })
+        }
+        .width('100%')
+        .margin({ top: 9 })
       }
       .layoutWeight(1)
       .alignItems(HorizontalAlign.Start)
       .margin({ left: 14 })
     }
     .width('92%')
-    .height(92)
-    .padding({ left: 16, right: 16 })
+    .height(122)
+    .padding({ left: 16, right: 16, top: 12, bottom: 12 })
     .backgroundColor(Color.White)
     .borderRadius(16)
   }
