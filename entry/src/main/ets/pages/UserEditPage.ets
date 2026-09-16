@@ -1,7 +1,7 @@
 import { common } from '@kit.AbilityKit';
-import { router } from '@kit.ArkUI';
 import { updateUserInfo } from '../api/UserApi';
 import { BaseUrl } from '../common/Constant';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { selectImage } from '../utils/UploadUtil';
 import { User } from '../viewmodel/User';
@@ -28,11 +28,14 @@ struct UserEditPage {
     }
 
     this.uploading = true;
-    const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
-    const imageUrl = await selectImage(context);
-    this.uploading = false;
-    if (imageUrl.length > 0) {
-      this.headImg = imageUrl;
+    try {
+      const context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+      const imageUrl = await selectImage(context);
+      if (imageUrl.length > 0) {
+        this.headImg = imageUrl;
+      }
+    } finally {
+      this.uploading = false;
     }
   }
 
@@ -61,7 +64,9 @@ struct UserEditPage {
       }
 
       AppStorage.setOrCreate('user', updatedUser);
-      showText(result.info.length > 0 ? result.info : '更新成功');
+      showText(result.info.length > 0 ? result.info : '更新成功', () => {
+        this.getUIContext().getRouter().back();
+      });
     } catch (error) {
       console.error(`Failed to update user information: ${JSON.stringify(error)}`);
       showText('更新失败');
@@ -74,13 +79,7 @@ struct UserEditPage {
     Column() {
       Stack({ alignContent: Alignment.Center }) {
         Row() {
-          Image($r('app.media.ic_return'))
-            .width(28)
-            .height(28)
-            .objectFit(ImageFit.Contain)
-            .onClick(() => {
-              router.back();
-            })
+          PageBackButton({ icon: $r('app.media.ic_return') })
 
           Blank()
 

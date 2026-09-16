@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活动导航</title>
+  <style>
+    html, body, #map {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    #message {
+      box-sizing: border-box;
+      padding: 24px;
+      color: #4b5563;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="map"><div id="message">导航加载中…</div></div>
+<script>
+  let request;
+
+  function showMessage(message) {
+    document.getElementById('map').innerHTML = `<div id="message">${message}</div>`;
+  }
+
+  function calculateZoomLevel(origin, destination) {
+    const latDifference = Math.max(Math.abs(destination.lat - origin.lat), 0.0001);
+    const lngDifference = Math.max(Math.abs(destination.lng - origin.lng), 0.0001);
+    return Math.max(3, Math.min(18, Math.ceil(Math.min(
+      Math.log2(180 / latDifference),
+      Math.log2(360 / lngDifference)
+    ))));
+  }
+
+  function initMap() {
+    const directionsService = new HWMapJsSDK.HWDirectionsService();
+    const directionsRenderer = new HWMapJsSDK.HWDirectionsRenderer();
+    const map = new HWMapJsSDK.HWMap(document.getElementById('map'), {
+      center: {
+        lat: (request.origin.lat + request.destination.lat) / 2,
+        lng: (request.origin.lng + request.destination.lng) / 2
+      },
+      zoom: calculateZoomLevel(request.origin, request.destination),
+      language: 'CHI',
+      sourceType: 'raster',
+      zoomControl: true,
+      locationControl: true
+    });
+
+    new HWMapJsSDK.HWMarker({position: request.origin, label: '我'}).setMap(map);
+    new HWMapJsSDK.HWMarker({position: request.destination, label: '活动地点'}).setMap(map);
+    directionsRenderer.setMap(map);
+    directionsService.routeDriving(request, (result, status) => {
+      if (status === '0') {
+        directionsRenderer.setDirections(result);
+      } else {
+        showMessage('暂时无法规划路线。');
+      }
+    });
+  }
+
+  async function initialize() {
+    const parameters = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+    request = {
+      origin: {lat: Number(parameters.olat), lng: Number(parameters.olng)},
+      destination: {lat: Number(parameters.dlat), lng: Number(parameters.dlng)}
+    };
+    const coordinates = [
+      request.origin.lat,
+      request.origin.lng,
+      request.destination.lat,
+      request.destination.lng
+    ];
+    if (!coordinates.every(Number.isFinite)) {
+      showMessage('导航坐标参数无效。');
+      return;
+    }
+
+    const configResponse = await fetch('/map/config').then(response => response.json());
+    const apiKey = configResponse.obj && configResponse.obj.apiKey;
+    if (!apiKey) {
+      showMessage('未配置 HMS_MAP_API_KEY，暂时无法加载华为导航地图。');
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = `https://mapapi.cloud.huawei.com/mapjs/v1/api/js?callback=initMap&key=${encodeURIComponent(apiKey)}`;
+    script.onerror = () => showMessage('导航地图加载失败，请检查网络或华为地图配置。');
+    document.head.appendChild(script);
+  }
+
+  initialize().catch(() => showMessage('导航地图加载失败，请检查网络或华为地图配置。'));
+</script>
+</body>
+</html>

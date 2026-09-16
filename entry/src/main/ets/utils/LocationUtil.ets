@@ -23,7 +23,9 @@ export async function reqLocationPermissions(context: common.UIAbilityContext): 
   const atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
   try {
     const result = await atManager.requestPermissionsFromUser(context, LOCATION_PERMISSIONS);
-    return result.authResults.length > 1 && result.authResults[1] === 0;
+    const approximateGranted = result.authResults.length > 0 && result.authResults[0] === 0;
+    const preciseGranted = result.authResults.length > 1 && result.authResults[1] === 0;
+    return approximateGranted || preciseGranted;
   } catch (error) {
     const businessError = error as BusinessError;
     console.error(`Failed to request location permissions. Code: ${businessError.code}, ` +
@@ -33,11 +35,28 @@ export async function reqLocationPermissions(context: common.UIAbilityContext): 
 }
 
 export async function getCurrentLocationInfo(): Promise<LocationInfo> {
+  if (!geoLocationManager.isLocationEnabled()) {
+    throw new Error('Location service is disabled');
+  }
+
   const request: geoLocationManager.CurrentLocationRequest = {
     priority: geoLocationManager.LocationRequestPriority.FIRST_FIX,
-    timeoutMs: 10000
+    timeoutMs: 30000,
+    maxAccuracy: 100
   };
-  const location = await geoLocationManager.getCurrentLocation(request);
+  let location: geoLocationManager.Location;
+  try {
+    location = await geoLocationManager.getCurrentLocation(request);
+  } catch (error) {
+    const currentLocationError = error as BusinessError;
+    try {
+      location = geoLocationManager.getLastLocation();
+    } catch {
+      throw new Error(`Failed to obtain location. Code: ${currentLocationError.code}, ` +
+        `message: ${currentLocationError.message}`);
+    }
+  }
+
   const locationInfo = new LocationInfo(location.latitude, location.longitude);
   if (!geoLocationManager.isGeocoderAvailable()) {
     return locationInfo;

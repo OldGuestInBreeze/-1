@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { getEventList } from '../api/EventApi';
 import { EventComponent } from '../component/EventComponent';
+import { PageBackButton } from '../component/PageBackButton';
 import { loginUserAction } from '../utils/UserUtil';
 import { Event } from '../viewmodel/Event';
 import { RouterParam } from '../viewmodel/RouterParam';
@@ -42,6 +43,13 @@ struct EventListPage {
       return;
     }
 
+    if (!Array.isArray(response.obj)) {
+      this.eventList = [];
+      this.loadFailed = true;
+      this.loading = false;
+      return;
+    }
+
     const result = response.obj as Event[];
     const events: Event[] = [];
     result.forEach((item: Event) => {
@@ -55,19 +63,13 @@ struct EventListPage {
   build() {
     Column() {
       Row() {
-        Image($r('app.media.ic_back'))
-          .width(28)
-          .height(28)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back();
-          })
+        PageBackButton({ icon: $r('app.media.ic_return_white') })
 
         Text(this.keyword.length > 0 ? this.keyword : '全部活动')
           .fontSize(22)
           .fontWeight(FontWeight.Medium)
           .fontColor(Color.White)
-          .margin({ left: 20 })
+          .margin({ left: 8 })
 
         Blank()
       }

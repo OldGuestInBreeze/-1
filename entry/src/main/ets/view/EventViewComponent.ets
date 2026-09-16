@@ -49,6 +49,12 @@ export default struct EventViewComponent {
         return;
       }
 
+      if (!Array.isArray(response.obj)) {
+        this.teamList = [];
+        this.loadFailed = true;
+        return;
+      }
+
       const result = response.obj as Team[];
       const teams: Team[] = [];
       result.forEach((item: Team) => {

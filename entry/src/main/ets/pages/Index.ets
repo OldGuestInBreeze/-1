@@ -1,5 +1,6 @@
 import HomeViewComponent from '../view/HomeViewComponent';
 import EventViewComponent from '../view/EventViewComponent';
+import { FriendViewComponent } from '../view/FriendViewComponent';
 import { UserInfoViewComponent } from '../view/UserInfoViewComponent';
 
 @Entry
@@ -64,12 +65,9 @@ struct Index {
       ))
 
       TabContent() {
-        Column() {
-          Blank()
-        }
-          .width('100%')
-          .height('100%')
-          .backgroundColor(Color.White)
+        FriendViewComponent({
+          pageVisible: this.pageVisible && this.selectedIndex === 2
+        })
       }
       .tabBar(this.tabBarItem(
         2,
