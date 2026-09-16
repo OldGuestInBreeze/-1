@@ -31,8 +31,8 @@ export function httpRequest(url: string, option: http.HttpRequestOptions): Promi
 
       const resultJson = JSON.parse(`${response.result}`) as ResultData;
       serverData.success = resultJson.success;
-      serverData.obj = resultJson.obj;
-      serverData.info = resultJson.info;
+      serverData.obj = resultJson.obj === undefined || resultJson.obj === null ? new Object() : resultJson.obj;
+      serverData.info = resultJson.info === undefined || resultJson.info === null ? '' : resultJson.info;
       return serverData;
     })
     .catch((error: BusinessError) => {

@@ -1,5 +1,5 @@
-import { router } from '@kit.ArkUI';
 import { updatePassword } from '../api/UserApi';
+import { PageBackButton } from '../component/PageBackButton';
 import { showText } from '../utils/ShowUtil';
 import { loginUserAction } from '../utils/UserUtil';
 import { User } from '../viewmodel/User';
@@ -93,13 +93,7 @@ struct ResetPasswordPage {
     Column() {
       Stack({ alignContent: Alignment.Center }) {
         Row() {
-          Image($r('app.media.ic_return'))
-            .width(28)
-            .height(28)
-            .objectFit(ImageFit.Contain)
-            .onClick(() => {
-              router.back();
-            })
+          PageBackButton({ icon: $r('app.media.ic_return') })
 
           Blank()
         }
