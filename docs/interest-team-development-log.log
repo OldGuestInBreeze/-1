@@ -1,0 +1,933 @@
+兴趣小队项目开发日志（UTF-8）
+仓库：https://github.com/OldGuestInBreeze/-1
+范围：2026-09-08 14:49:38 至 2026-09-17 23:31:38，北京时间 UTC+8
+总计：52 条提交；合并 2 条；默认分支 26 条；其他分支独有 26 条
+采集：2026-09-17 23:52:39（UTC+8）
+口径：时间为 Git CommitDate，不是实际上传时间；变更摘要不代表测试或验收通过。
+文件状态：A 新增；M 修改；D 删除；R 重命名。合并记录不重复展开文件变更。
+
+========================================================================
+2026-09-08 | 工程初始化与账号基础 | 11 条
+从模块权限开始搭建 HarmonyOS 客户端，完成登录界面、主导航、通用网络与提示工具、认证接口及注册流程的提交；期间合并 PR #1。
+
+[2026-09-08 14:49:38 +08:00] 配置应用模块与权限
+提交：049c2a73dafc893fe41be5bb8759fe8cbe188149
+原始标题：Add HarmonyOS module permissions
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T06:49:38Z | CommitDate：2026-09-08T06:49:38Z
+版本范围：默认分支
+内容：提交应用模块声明，配置网络、模糊定位和精确定位权限，以及入口与备份能力。
+链接：https://github.com/OldGuestInBreeze/-1/commit/049c2a73dafc893fe41be5bb8759fe8cbe188149
+所在分支：devin/1788850116-add-module-permissions；devin/1788852083.32064-harmony-login-main-ui；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：1 项
+  A	module.json5
+
+[2026-09-08 15:25:38 +08:00] 搭建 HarmonyOS 客户端工程
+提交：4a1ce451aa3faea2f9cd6a3cd7ee6994189c7875
+原始标题：Add HarmonyOS login and main navigation UI
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T07:25:38Z | CommitDate：2026-09-08T07:25:38Z
+版本范围：默认分支
+内容：加入工程配置、登录页、主页面、界面资源与测试模板，形成客户端初始结构。
+链接：https://github.com/OldGuestInBreeze/-1/commit/4a1ce451aa3faea2f9cd6a3cd7ee6994189c7875
+所在分支：devin/1788850116-add-module-permissions；devin/1788852083.32064-harmony-login-main-ui；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：116 项
+  A	.gitignore
+  A	AppScope/app.json5
+  A	AppScope/resources/base/element/string.json
+  A	AppScope/resources/base/media/background.png
+  A	AppScope/resources/base/media/foreground.png
+  A	AppScope/resources/base/media/layered_image.json
+  A	build-profile.json5
+  A	code-linter.json5
+  A	entry/.gitignore
+  A	entry/build-profile.json5
+  A	entry/hvigorfile.ts
+  A	entry/obfuscation-rules.txt
+  A	entry/oh-package.json5
+  A	entry/src/main/ets/entryability/EntryAbility.ets
+  A	entry/src/main/ets/entrybackupability/EntryBackupAbility.ets
+  A	entry/src/main/ets/pages/Index.ets
+  A	entry/src/main/ets/pages/LoginPage.ets
+  R099	module.json5 -> entry/src/main/module.json5
+  A	entry/src/main/resources/base/element/color.json
+  A	entry/src/main/resources/base/element/float.json
+  A	entry/src/main/resources/base/element/string.json
+  A	entry/src/main/resources/base/media/background.png
+  A	entry/src/main/resources/base/media/bg_eventinfo.png
+  A	entry/src/main/resources/base/media/bg_header.jpg
+  A	entry/src/main/resources/base/media/bg_home.png
+  A	entry/src/main/resources/base/media/bg_login.jpg
+  A	entry/src/main/resources/base/media/bg_personal.png
+  A	entry/src/main/resources/base/media/bg_userinfo.png
+  A	entry/src/main/resources/base/media/comment.png
+  A	entry/src/main/resources/base/media/event_describe.png
+  A	entry/src/main/resources/base/media/event_name.png
+  A	entry/src/main/resources/base/media/event_position.png
+  A	entry/src/main/resources/base/media/foreground.png
+  A	entry/src/main/resources/base/media/ic_back.png
+  A	entry/src/main/resources/base/media/ic_bell_fill.png
+  A	entry/src/main/resources/base/media/ic_bell_normal.png
+  A	entry/src/main/resources/base/media/ic_bg_login.png
+  A	entry/src/main/resources/base/media/ic_chat.png
+  A	entry/src/main/resources/base/media/ic_chevron_right_grey600_24dp.png
+  A	entry/src/main/resources/base/media/ic_comment.png
+  A	entry/src/main/resources/base/media/ic_email.png
+  A	entry/src/main/resources/base/media/ic_event_add.png
+  A	entry/src/main/resources/base/media/ic_event_add_to_photos.png
+  A	entry/src/main/resources/base/media/ic_event_off.png
+  A	entry/src/main/resources/base/media/ic_event_on.png
+  A	entry/src/main/resources/base/media/ic_eventinfo_commit.png
+  A	entry/src/main/resources/base/media/ic_eventinfo_share.png
+  A	entry/src/main/resources/base/media/ic_friend_no.png
+  A	entry/src/main/resources/base/media/ic_friends_off.png
+  A	entry/src/main/resources/base/media/ic_friends_on.png
+  A	entry/src/main/resources/base/media/ic_group_grey600_18dp.png
+  A	entry/src/main/resources/base/media/ic_home_excursion.png
+  A	entry/src/main/resources/base/media/ic_home_motion.png
+  A	entry/src/main/resources/base/media/ic_home_off.png
+  A	entry/src/main/resources/base/media/ic_home_on.png
+  A	entry/src/main/resources/base/media/ic_home_recommend.png
+  A	entry/src/main/resources/base/media/ic_home_ride.png
+  A	entry/src/main/resources/base/media/ic_img_add.png
+  A	entry/src/main/resources/base/media/ic_input_captcha.png
+  A	entry/src/main/resources/base/media/ic_input_cellphone.png
+  A	entry/src/main/resources/base/media/ic_input_name.png
+  A	entry/src/main/resources/base/media/ic_input_password.png
+  A	entry/src/main/resources/base/media/ic_launcher.png
+  A	entry/src/main/resources/base/media/ic_launcher_background.xml
+  A	entry/src/main/resources/base/media/ic_left_arrow_white_48dp.png
+  A	entry/src/main/resources/base/media/ic_like.png
+  A	entry/src/main/resources/base/media/ic_liked.png
+  A	entry/src/main/resources/base/media/ic_loadfaild.png
+  A	entry/src/main/resources/base/media/ic_login_logo.png
+  A	entry/src/main/resources/base/media/ic_mine_off.png
+  A	entry/src/main/resources/base/media/ic_mine_on.png
+  A	entry/src/main/resources/base/media/ic_nav_bar_add_normal.png
+  A	entry/src/main/resources/base/media/ic_nav_bar_event_normal.png
+  A	entry/src/main/resources/base/media/ic_nav_bar_event_select.png
+  A	entry/src/main/resources/base/media/ic_nav_bar_team_normal.png
+  A	entry/src/main/resources/base/media/ic_nav_bar_team_selected.png
+  A	entry/src/main/resources/base/media/ic_phone.png
+  A	entry/src/main/resources/base/media/ic_place_grey600_18dp.png
+  A	entry/src/main/resources/base/media/ic_return.png
+  A	entry/src/main/resources/base/media/ic_return_white.png
+  A	entry/src/main/resources/base/media/ic_share.png
+  A	entry/src/main/resources/base/media/ic_swiper_1.png
+  A	entry/src/main/resources/base/media/ic_swiper_2.jpg
+  A	entry/src/main/resources/base/media/ic_swiper_3.jpg
+  A	entry/src/main/resources/base/media/ic_user.png
+  A	entry/src/main/resources/base/media/ic_user_icon_default.png
+  A	entry/src/main/resources/base/media/ic_user_menu_about.png
+  A	entry/src/main/resources/base/media/ic_user_menu_event.png
+  A	entry/src/main/resources/base/media/ic_user_menu_security.png
+  A	entry/src/main/resources/base/media/ic_user_menu_setting.png
+  A	entry/src/main/resources/base/media/icon.jpg
+  A	entry/src/main/resources/base/media/join_off.png
+  A	entry/src/main/resources/base/media/join_on.png
+  A	entry/src/main/resources/base/media/layered_image.json
+  A	entry/src/main/resources/base/media/position.png
+  A	entry/src/main/resources/base/media/return.png
+  A	entry/src/main/resources/base/media/search.png
+  A	entry/src/main/resources/base/media/startIcon.png
+  A	entry/src/main/resources/base/media/toLogin.png
+  A	entry/src/main/resources/base/media/user_icon.png
+  A	entry/src/main/resources/base/media/user_name.png
+  A	entry/src/main/resources/base/media/user_position.png
+  A	entry/src/main/resources/base/profile/backup_config.json
+  A	entry/src/main/resources/base/profile/main_pages.json
+  A	entry/src/main/resources/dark/element/color.json
+  A	entry/src/main/resources/rawfile/loading.html
+  A	entry/src/mock/mock-config.json5
+  A	entry/src/ohosTest/ets/test/Ability.test.ets
+  A	entry/src/ohosTest/ets/test/List.test.ets
+  A	entry/src/ohosTest/module.json5
+  A	entry/src/test/List.test.ets
+  A	entry/src/test/LocalUnit.test.ets
+  A	hvigor/hvigor-config.json5
+  A	hvigorfile.ts
+  A	oh-package-lock.json5
+  A	oh-package.json5
+
+[2026-09-08 15:27:59 +08:00] 合并登录与导航界面
+提交：8a8579a1c97c43fe533c092b7437d032d411f59f
+原始标题：Merge pull request #1 from OldGuestInBreeze/devin/1788852083.32064-harmony-login-main-ui
+作者：OldGuestInBreeze | 提交者：GitHub
+AuthorDate：2026-09-08T15:27:59+08:00 | CommitDate：2026-09-08T15:27:59+08:00
+版本范围：默认分支
+内容：合并 PR #1，将登录页和主导航界面变更纳入默认分支。
+链接：https://github.com/OldGuestInBreeze/-1/commit/8a8579a1c97c43fe533c092b7437d032d411f59f
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：合并提交，参见其原始开发提交。
+
+[2026-09-08 15:38:29 +08:00] 调整页面安全区域
+提交：606e294eb16f0e8339f673d4cdfcdece8eb936e6
+原始标题：Extend pages into system safe areas
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T07:38:29Z | CommitDate：2026-09-08T07:38:29Z
+版本范围：默认分支
+内容：调整主页面和登录页的安全区域布局。
+链接：https://github.com/OldGuestInBreeze/-1/commit/606e294eb16f0e8339f673d4cdfcdece8eb936e6
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：2 项
+  M	entry/src/main/ets/pages/Index.ets
+  M	entry/src/main/ets/pages/LoginPage.ets
+
+[2026-09-08 15:53:45 +08:00] 封装 HTTP 请求与沉浸式布局
+提交：ae67109932cf4bbf1104b2d9993a877a8e99354f
+原始标题：Add HTTP request wrapper and immersive layout
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T07:53:45Z | CommitDate：2026-09-08T07:53:45Z
+版本范围：默认分支
+内容：加入公共网络请求工具，并调整 EntryAbility 与页面布局逻辑。
+链接：https://github.com/OldGuestInBreeze/-1/commit/ae67109932cf4bbf1104b2d9993a877a8e99354f
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：4 项
+  M	entry/src/main/ets/entryability/EntryAbility.ets
+  M	entry/src/main/ets/pages/Index.ets
+  M	entry/src/main/ets/pages/LoginPage.ets
+  A	entry/src/main/ets/utils/HttpRequest.ets
+
+[2026-09-08 15:56:46 +08:00] 集中管理后端接口常量
+提交：815aabe569952aaf97653f544b2aec4816dfa7a9
+原始标题：Centralize backend API constants
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T07:56:46Z | CommitDate：2026-09-08T07:56:46Z
+版本范围：默认分支
+内容：加入接口常量文件，调整请求工具与提示工具的组织方式。
+链接：https://github.com/OldGuestInBreeze/-1/commit/815aabe569952aaf97653f544b2aec4816dfa7a9
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  A	entry/src/main/ets/common/Constant.ets
+  M	entry/src/main/ets/utils/HttpRequest.ets
+  A	entry/src/main/ets/utils/PromptUtil.ets
+
+[2026-09-08 15:58:41 +08:00] 提取通用提示工具
+提交：417a99d1ce067b097ec88619a9a6ec8132d8082e
+原始标题：Add reusable alert dialog helper
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T07:58:41Z | CommitDate：2026-09-08T07:58:41Z
+版本范围：默认分支
+内容：加入 ShowUtil 提示工具，调整网络请求中的提示调用。
+链接：https://github.com/OldGuestInBreeze/-1/commit/417a99d1ce067b097ec88619a9a6ec8132d8082e
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  M	entry/src/main/ets/utils/HttpRequest.ets
+  D	entry/src/main/ets/utils/PromptUtil.ets
+  A	entry/src/main/ets/utils/ShowUtil.ets
+
+[2026-09-08 16:01:39 +08:00] 封装登录接口
+提交：994e4b48b5e9c1becaa29188f7a9b896da5b52c2
+原始标题：Add login API request wrapper
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T08:01:39Z | CommitDate：2026-09-08T08:01:39Z
+版本范围：默认分支
+内容：新增 LoginApi，将登录请求从页面逻辑中独立出来。
+链接：https://github.com/OldGuestInBreeze/-1/commit/994e4b48b5e9c1becaa29188f7a9b896da5b52c2
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：1 项
+  A	entry/src/main/ets/api/LoginApi.ets
+
+[2026-09-08 16:42:56 +08:00] 连接登录页与认证接口
+提交：265c8040e2538bbff0aa65b8f23c0050e0007a99
+原始标题：Connect login page to backend authentication
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T08:42:56Z | CommitDate：2026-09-08T08:42:56Z
+版本范围：默认分支
+内容：在登录页接入后端认证调用，并加入 User 数据模型。
+链接：https://github.com/OldGuestInBreeze/-1/commit/265c8040e2538bbff0aa65b8f23c0050e0007a99
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：2 项
+  M	entry/src/main/ets/pages/LoginPage.ets
+  A	entry/src/main/ets/viewmodel/User.ets
+
+[2026-09-08 16:49:49 +08:00] 构建 ArkUI 主导航
+提交：bf3824e51727d8c37d3318f8471ac99cbcb9ee23
+原始标题：Build main navigation with ArkUI tabs
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T08:49:49Z | CommitDate：2026-09-08T08:49:49Z
+版本范围：默认分支
+内容：使用 ArkUI Tabs 组织主页面导航与标签切换。
+链接：https://github.com/OldGuestInBreeze/-1/commit/bf3824e51727d8c37d3318f8471ac99cbcb9ee23
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：1 项
+  M	entry/src/main/ets/pages/Index.ets
+
+[2026-09-08 17:24:42 +08:00] 加入注册流程
+提交：c33fa9a95dee148789d579c7e93888b0b3f03cf8
+原始标题：Add registration flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-08T09:24:42Z | CommitDate：2026-09-08T09:24:42Z
+版本范围：默认分支
+内容：新增注册页、注册接口和页面路由，并调整登录页入口。
+链接：https://github.com/OldGuestInBreeze/-1/commit/c33fa9a95dee148789d579c7e93888b0b3f03cf8
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：4 项
+  M	entry/src/main/ets/api/LoginApi.ets
+  M	entry/src/main/ets/pages/LoginPage.ets
+  A	entry/src/main/ets/pages/RegisterPage.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+========================================================================
+2026-09-09 | 首页、个人中心与活动发布 | 4 条
+围绕活动发现和用户操作完善客户端，提交活动首页、个人中心、资料编辑、密码设置与活动发布流程。
+
+[2026-09-09 14:50:32 +08:00] 搭建活动首页
+提交：ed8949a337ac6f182d57555ab2f1ea6ab554f845
+原始标题：Build activity home feed
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-09T06:50:32Z | CommitDate：2026-09-09T06:50:32Z
+版本范围：默认分支
+内容：加入活动接口、活动卡片、首页视图、活动模型及登录状态工具。
+链接：https://github.com/OldGuestInBreeze/-1/commit/ed8949a337ac6f182d57555ab2f1ea6ab554f845
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：6 项
+  A	entry/src/main/ets/api/EventApi.ets
+  A	entry/src/main/ets/component/EventComponent.ets
+  M	entry/src/main/ets/pages/Index.ets
+  A	entry/src/main/ets/utils/UserUtil.ets
+  A	entry/src/main/ets/view/HomeViewComponent.ets
+  A	entry/src/main/ets/viewmodel/Event.ets
+
+[2026-09-09 15:50:09 +08:00] 加入个人中心
+提交：c2dd033222702ebb976b146069909c00b1cf1710
+原始标题：Build personal center view
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-09T07:50:09Z | CommitDate：2026-09-09T07:50:09Z
+版本范围：默认分支
+内容：新增个人中心视图，并接入应用入口与主页面。
+链接：https://github.com/OldGuestInBreeze/-1/commit/c2dd033222702ebb976b146069909c00b1cf1710
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  M	entry/src/main/ets/entryability/EntryAbility.ets
+  M	entry/src/main/ets/pages/Index.ets
+  A	entry/src/main/ets/view/UserInfoViewComponent.ets
+
+[2026-09-09 16:21:54 +08:00] 加入资料编辑与密码设置
+提交：2dce3aa88a4626d91031bb19eb7a5e0a46c9f7a5
+原始标题：Add profile and password settings
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-09T08:21:54Z | CommitDate：2026-09-09T08:21:54Z
+版本范围：默认分支
+内容：新增用户资料编辑页、密码重置页、用户接口及图片上传工具。
+链接：https://github.com/OldGuestInBreeze/-1/commit/2dce3aa88a4626d91031bb19eb7a5e0a46c9f7a5
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：5 项
+  A	entry/src/main/ets/api/UserApi.ets
+  A	entry/src/main/ets/pages/ResetPasswordPage.ets
+  A	entry/src/main/ets/pages/UserEditPage.ets
+  A	entry/src/main/ets/utils/UploadUtil.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-09 23:08:05 +08:00] 加入活动发布流程
+提交：c2bced0b56fd53655b88a4edccce0bfe5cfdd320
+原始标题：Add activity publishing flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-09T15:08:05Z | CommitDate：2026-09-09T15:08:05Z
+版本范围：默认分支
+内容：新增活动编辑页、定位工具与路由参数模型，并扩展活动接口和页面配置。
+链接：https://github.com/OldGuestInBreeze/-1/commit/c2bced0b56fd53655b88a4edccce0bfe5cfdd320
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：5 项
+  M	entry/src/main/ets/api/EventApi.ets
+  A	entry/src/main/ets/pages/EventEditPage.ets
+  A	entry/src/main/ets/utils/LocationUtil.ets
+  A	entry/src/main/ets/viewmodel/RouterParam.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+========================================================================
+2026-09-10 | 核心活动流程完善与异常修复 | 13 条
+提交启动工具包、活动管理、搜索、详情、评论、参与和成员列表，合并 PR #2；随后在扩展开发分支补充数据异常保护与头像保存修正。
+
+[2026-09-10 00:01:25 +08:00] 上传后端启动工具包
+提交：736bf3a06c509105b435c41c798e9058decfa95f
+原始标题：Add one-click backend launcher
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-09T16:01:25Z | CommitDate：2026-09-09T16:01:25Z
+版本范围：默认分支
+内容：新增后端一键启动 ZIP 包；这是启动脚本交付记录，不等同于提交后端源码。
+链接：https://github.com/OldGuestInBreeze/-1/commit/736bf3a06c509105b435c41c798e9058decfa95f
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：1 项
+  A	tools/interest-team-backend-launcher.zip
+
+[2026-09-10 10:44:33 +08:00] 调整首页活动卡片
+提交：9e5b61a6d3f89ff4deda0f73ad5b446ecc92fce7
+原始标题：Polish home activity card layout
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T02:44:33Z | CommitDate：2026-09-10T02:44:33Z
+版本范围：默认分支
+内容：优化活动卡片与首页活动列表的布局。
+链接：https://github.com/OldGuestInBreeze/-1/commit/9e5b61a6d3f89ff4deda0f73ad5b446ecc92fce7
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：2 项
+  M	entry/src/main/ets/component/EventComponent.ets
+  M	entry/src/main/ets/view/HomeViewComponent.ets
+
+[2026-09-10 12:22:15 +08:00] 调整模拟器后端地址配置
+提交：ad5474554bc7cacec97863a3d66522de7e2be021
+原始标题：Update backend address for local emulator
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T04:22:15Z | CommitDate：2026-09-10T04:22:15Z
+版本范围：默认分支
+内容：更新接口常量中的后端连接地址，供本地模拟器连接使用。
+链接：https://github.com/OldGuestInBreeze/-1/commit/ad5474554bc7cacec97863a3d66522de7e2be021
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：1 项
+  M	entry/src/main/ets/common/Constant.ets
+
+[2026-09-10 12:32:08 +08:00] 加入活动管理流程
+提交：f5a3aefee300710ce9d28c59090e7613363b3d23
+原始标题：Add activity management flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T04:32:08Z | CommitDate：2026-09-10T04:32:08Z
+版本范围：默认分支
+内容：新增“我的活动”页面，扩展活动编辑和管理接口，并配置页面路由。
+链接：https://github.com/OldGuestInBreeze/-1/commit/f5a3aefee300710ce9d28c59090e7613363b3d23
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：4 项
+  M	entry/src/main/ets/api/EventApi.ets
+  M	entry/src/main/ets/pages/EventEditPage.ets
+  A	entry/src/main/ets/pages/MyEventPage.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-10 12:53:10 +08:00] 加入活动搜索结果页
+提交：e5798b11e990488cc1f379a32f1e7870ccb0ef5f
+原始标题：Add activity search results page
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T04:53:10Z | CommitDate：2026-09-10T04:53:10Z
+版本范围：默认分支
+内容：新增活动列表页，并连接首页搜索入口与路由。
+链接：https://github.com/OldGuestInBreeze/-1/commit/e5798b11e990488cc1f379a32f1e7870ccb0ef5f
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  A	entry/src/main/ets/pages/EventListPage.ets
+  M	entry/src/main/ets/view/HomeViewComponent.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-10 13:00:44 +08:00] 加入活动详情页
+提交：aed3a4972755c6928cadc28a574a82fa63aef40f
+原始标题：Add activity detail page
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T05:00:44Z | CommitDate：2026-09-10T05:00:44Z
+版本范围：默认分支
+内容：新增活动详情页面、详情查询接口及页面路由。
+链接：https://github.com/OldGuestInBreeze/-1/commit/aed3a4972755c6928cadc28a574a82fa63aef40f
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  M	entry/src/main/ets/api/EventApi.ets
+  A	entry/src/main/ets/pages/EventInfoPage.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-10 13:28:12 +08:00] 加入活动评论流程
+提交：af40cd9d79fd5101683b50727a46df2540b9f6fe
+原始标题：Add activity comments flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T05:28:12Z | CommitDate：2026-09-10T05:28:12Z
+版本范围：默认分支
+内容：扩展详情页的评论交互，并新增评论接口与 EventComment 模型。
+链接：https://github.com/OldGuestInBreeze/-1/commit/af40cd9d79fd5101683b50727a46df2540b9f6fe
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：3 项
+  M	entry/src/main/ets/api/EventApi.ets
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+  A	entry/src/main/ets/viewmodel/EventComment.ets
+
+[2026-09-10 13:47:04 +08:00] 加入活动参与流程
+提交：f87a18969dfb50a314b445331dff9525d6e2d9eb
+原始标题：Add activity join flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T05:47:04Z | CommitDate：2026-09-10T05:47:04Z
+版本范围：默认分支
+内容：扩展加入状态查询与加入操作接口，并接入活动详情页。
+链接：https://github.com/OldGuestInBreeze/-1/commit/f87a18969dfb50a314b445331dff9525d6e2d9eb
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：2 项
+  M	entry/src/main/ets/api/EventApi.ets
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+
+[2026-09-10 13:54:51 +08:00] 建设活动与小队标签页
+提交：722635a71d9afdf0e6ca5a25dd622c7343110d21
+原始标题：Build my activities tab
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T05:54:51Z | CommitDate：2026-09-10T05:54:51Z
+版本范围：默认分支
+内容：加入活动视图、未登录提示和 Team 模型，调整主导航中的活动入口。
+链接：https://github.com/OldGuestInBreeze/-1/commit/722635a71d9afdf0e6ca5a25dd622c7343110d21
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：5 项
+  M	entry/src/main/ets/api/EventApi.ets
+  A	entry/src/main/ets/component/NoLoginComponent.ets
+  M	entry/src/main/ets/pages/Index.ets
+  A	entry/src/main/ets/view/EventViewComponent.ets
+  A	entry/src/main/ets/viewmodel/Team.ets
+
+[2026-09-10 14:08:26 +08:00] 加入活动成员列表
+提交：95aefe7dfeec1b995cfce863aafedd4e50f48ce3
+原始标题：Add activity member list
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T06:08:26Z | CommitDate：2026-09-10T06:08:26Z
+版本范围：默认分支
+内容：新增成员列表页、成员模型和查询接口，并接入活动视图与路由。
+链接：https://github.com/OldGuestInBreeze/-1/commit/95aefe7dfeec1b995cfce863aafedd4e50f48ce3
+所在分支：devin/1788850116-add-module-permissions；devin/1788853038-safe-area-layout；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：5 项
+  M	entry/src/main/ets/api/EventApi.ets
+  A	entry/src/main/ets/pages/TeamListPage.ets
+  M	entry/src/main/ets/view/EventViewComponent.ets
+  A	entry/src/main/ets/viewmodel/EventMember.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-10 14:33:32 +08:00] 合并核心业务流程
+提交：fb2da2190fec521c6c5a0f1534df123d0ff6ebc9
+原始标题：Merge pull request #2 from OldGuestInBreeze/devin/1788853038-safe-area-layout
+作者：OldGuestInBreeze | 提交者：GitHub
+AuthorDate：2026-09-10T14:33:32+08:00 | CommitDate：2026-09-10T14:33:32+08:00
+版本范围：默认分支
+内容：合并 PR #2，将活动发布、搜索、详情、评论、参与及成员列表等变更纳入默认分支。
+链接：https://github.com/OldGuestInBreeze/-1/commit/fb2da2190fec521c6c5a0f1534df123d0ff6ebc9
+所在分支：devin/1788850116-add-module-permissions；devin/1789022641-fix-created-event-crash；devin/1789659075-defense-downloads
+文件变更：合并提交，参见其原始开发提交。
+
+[2026-09-10 14:46:32 +08:00] 补充活动数据异常保护
+提交：99bbdc73fa6184f555d9ee7d8eba61c3980e01ce
+原始标题：Prevent activity data crashes
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T06:46:32Z | CommitDate：2026-09-10T06:46:32Z
+版本范围：扩展分支
+内容：为请求响应和活动、成员、小队模型补充空值默认值，并调整相关页面的数据处理。
+链接：https://github.com/OldGuestInBreeze/-1/commit/99bbdc73fa6184f555d9ee7d8eba61c3980e01ce
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：11 项
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+  M	entry/src/main/ets/pages/EventListPage.ets
+  M	entry/src/main/ets/pages/MyEventPage.ets
+  M	entry/src/main/ets/pages/TeamListPage.ets
+  M	entry/src/main/ets/utils/HttpRequest.ets
+  M	entry/src/main/ets/utils/UserUtil.ets
+  M	entry/src/main/ets/view/EventViewComponent.ets
+  M	entry/src/main/ets/view/HomeViewComponent.ets
+  M	entry/src/main/ets/viewmodel/Event.ets
+  M	entry/src/main/ets/viewmodel/EventMember.ets
+  M	entry/src/main/ets/viewmodel/Team.ets
+
+[2026-09-10 15:25:24 +08:00] 修正头像上传与保存流程
+提交：2ef9174745d544168b3860bd85a57fc9445cce43
+原始标题：Fix avatar upload save flow
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-10T07:25:24Z | CommitDate：2026-09-10T07:25:24Z
+版本范围：扩展分支
+内容：调整资料编辑页及图片上传工具，处理头像上传和保存之间的衔接。
+链接：https://github.com/OldGuestInBreeze/-1/commit/2ef9174745d544168b3860bd85a57fc9445cce43
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：2 项
+  M	entry/src/main/ets/pages/UserEditPage.ets
+  M	entry/src/main/ets/utils/UploadUtil.ets
+
+========================================================================
+2026-09-12 | 社交、地图与后端扩展 | 15 条
+在扩展开发分支加入成员管理、好友申请、私信、地图导航和 Spring Boot 后端，随后调整定位、返回按钮、好友通知与应用图标。
+
+[2026-09-12 13:22:02 +08:00] 加入发起者成员管理
+提交：d9d97c99b42e2ae3eaa19eaaf7c143913c0f8291
+原始标题：Add owner member management
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T05:22:02Z | CommitDate：2026-09-12T05:22:02Z
+版本范围：扩展分支
+内容：在成员列表页扩展活动发起者的成员管理交互。
+链接：https://github.com/OldGuestInBreeze/-1/commit/d9d97c99b42e2ae3eaa19eaaf7c143913c0f8291
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  M	entry/src/main/ets/pages/TeamListPage.ets
+
+[2026-09-12 13:53:22 +08:00] 加入好友申请流程
+提交：ce29c1605752d606df9c480b2fa3118da16b01e1
+原始标题：Add friend application flow
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T05:53:22Z | CommitDate：2026-09-12T05:53:22Z
+版本范围：扩展分支
+内容：新增好友接口、申请页和好友视图，并接入主导航与页面配置。
+链接：https://github.com/OldGuestInBreeze/-1/commit/ce29c1605752d606df9c480b2fa3118da16b01e1
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：5 项
+  A	entry/src/main/ets/api/FriendApi.ets
+  A	entry/src/main/ets/pages/ApplyPage.ets
+  M	entry/src/main/ets/pages/Index.ets
+  A	entry/src/main/ets/view/FriendViewComponent.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-12 13:59:21 +08:00] 加入私信聊天流程
+提交：6da998d2823edebde1956e0ca194adb2bb766845
+原始标题：Add direct messaging flow
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T05:59:21Z | CommitDate：2026-09-12T05:59:21Z
+版本范围：扩展分支
+内容：新增聊天接口、聊天页和聊天模型，并连接好友与成员页面入口。
+链接：https://github.com/OldGuestInBreeze/-1/commit/6da998d2823edebde1956e0ca194adb2bb766845
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：6 项
+  A	entry/src/main/ets/api/ChatApi.ets
+  A	entry/src/main/ets/pages/ChatPage.ets
+  M	entry/src/main/ets/pages/TeamListPage.ets
+  M	entry/src/main/ets/view/FriendViewComponent.ets
+  A	entry/src/main/ets/viewmodel/Chat.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-12 14:19:17 +08:00] 加入附近活动地图
+提交：96257aa8905094864861cbde65e7ad1d1033077c
+原始标题：Add nearby activity map
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T06:19:17Z | CommitDate：2026-09-12T06:19:17Z
+版本范围：扩展分支
+内容：新增地图页，扩展位置模型并配置地图页面路由。
+链接：https://github.com/OldGuestInBreeze/-1/commit/96257aa8905094864861cbde65e7ad1d1033077c
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：3 项
+  A	entry/src/main/ets/pages/MapPage.ets
+  A	entry/src/main/ets/viewmodel/Location.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-12 14:20:26 +08:00] 加入活动导航地图
+提交：0fdb49bbfb028c7722326f01d0be493446a3bb97
+原始标题：Add activity navigation map
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T06:20:26Z | CommitDate：2026-09-12T06:20:26Z
+版本范围：扩展分支
+内容：新增导航页，并从活动详情页接入导航入口。
+链接：https://github.com/OldGuestInBreeze/-1/commit/0fdb49bbfb028c7722326f01d0be493446a3bb97
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：3 项
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+  A	entry/src/main/ets/pages/NavigationPage.ets
+  M	entry/src/main/resources/base/profile/main_pages.json
+
+[2026-09-12 17:58:02 +08:00] 提交 Spring Boot 后端重建版本
+提交：fd7761a87781b9e83959b6fdf50e502a707e3f9d
+原始标题：Checkpoint Spring Boot backend reconstruction
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T09:58:02Z | CommitDate：2026-09-12T09:58:02Z
+版本范围：扩展分支
+内容：新增 Maven 后端工程、控制器、服务、数据模型、数据库初始化脚本与地图静态页面。
+链接：https://github.com/OldGuestInBreeze/-1/commit/fd7761a87781b9e83959b6fdf50e502a707e3f9d
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：36 项
+  A	backend/.gitignore
+  A	backend/README.md
+  A	backend/pom.xml
+  A	backend/scripts/package-backend.ps1
+  A	backend/scripts/start-backend.bat
+  A	backend/scripts/start-backend.ps1
+  A	backend/src/main/java/com/qst/iteam/IteamBackendApplication.java
+  A	backend/src/main/java/com/qst/iteam/config/ApiExceptionHandler.java
+  A	backend/src/main/java/com/qst/iteam/config/WebConfig.java
+  A	backend/src/main/java/com/qst/iteam/controller/ChatController.java
+  A	backend/src/main/java/com/qst/iteam/controller/EventCommentController.java
+  A	backend/src/main/java/com/qst/iteam/controller/EventController.java
+  A	backend/src/main/java/com/qst/iteam/controller/EventMemberController.java
+  A	backend/src/main/java/com/qst/iteam/controller/FriendController.java
+  A	backend/src/main/java/com/qst/iteam/controller/MapConfigController.java
+  A	backend/src/main/java/com/qst/iteam/controller/UploadController.java
+  A	backend/src/main/java/com/qst/iteam/controller/UserController.java
+  A	backend/src/main/java/com/qst/iteam/model/ApiResponse.java
+  A	backend/src/main/java/com/qst/iteam/model/ChatPayload.java
+  A	backend/src/main/java/com/qst/iteam/model/EventCommentPayload.java
+  A	backend/src/main/java/com/qst/iteam/model/EventCommentView.java
+  A	backend/src/main/java/com/qst/iteam/model/EventMemberView.java
+  A	backend/src/main/java/com/qst/iteam/model/EventPayload.java
+  A	backend/src/main/java/com/qst/iteam/model/EventView.java
+  A	backend/src/main/java/com/qst/iteam/model/MapConfig.java
+  A	backend/src/main/java/com/qst/iteam/model/PublicUser.java
+  A	backend/src/main/java/com/qst/iteam/model/TeamView.java
+  A	backend/src/main/java/com/qst/iteam/model/UserPayload.java
+  A	backend/src/main/java/com/qst/iteam/service/ChatService.java
+  A	backend/src/main/java/com/qst/iteam/service/EventService.java
+  A	backend/src/main/java/com/qst/iteam/service/FriendService.java
+  A	backend/src/main/java/com/qst/iteam/service/UserService.java
+  A	backend/src/main/resources/application.yml
+  A	backend/src/main/resources/schema.sql
+  A	backend/src/main/resources/static/map.html
+  A	backend/src/main/resources/static/navigationMap.html
+
+[2026-09-12 20:22:54 +08:00] 补充后端构建配置与冒烟测试
+提交：2c3ef67ba52f2c2753335207b42086e439c7b9a2
+原始标题：Complete backend build verification
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T12:22:54Z | CommitDate：2026-09-12T12:22:54Z
+版本范围：扩展分支
+内容：加入 Maven 设置与 BackendSmokeTest，调整启动、打包脚本和接口响应代码。
+链接：https://github.com/OldGuestInBreeze/-1/commit/2c3ef67ba52f2c2753335207b42086e439c7b9a2
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：11 项
+  M	backend/README.md
+  A	backend/maven-settings.xml
+  M	backend/scripts/package-backend.ps1
+  M	backend/scripts/start-backend.ps1
+  M	backend/src/main/java/com/qst/iteam/controller/ChatController.java
+  M	backend/src/main/java/com/qst/iteam/controller/EventCommentController.java
+  M	backend/src/main/java/com/qst/iteam/controller/EventController.java
+  M	backend/src/main/java/com/qst/iteam/controller/FriendController.java
+  M	backend/src/main/java/com/qst/iteam/controller/UserController.java
+  M	backend/src/main/java/com/qst/iteam/model/ApiResponse.java
+  A	backend/src/test/java/com/qst/iteam/BackendSmokeTest.java
+
+[2026-09-12 21:05:09 +08:00] 修正好友申请提交
+提交：099e8164b25574deb4063d3c93f1734748c8c541
+原始标题：Fix friend request submission
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:05:09Z | CommitDate：2026-09-12T13:05:09Z
+版本范围：扩展分支
+内容：调整好友接口与成员页中的申请逻辑，并补充后端冒烟测试代码。
+链接：https://github.com/OldGuestInBreeze/-1/commit/099e8164b25574deb4063d3c93f1734748c8c541
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：3 项
+  M	backend/src/test/java/com/qst/iteam/BackendSmokeTest.java
+  M	entry/src/main/ets/api/FriendApi.ets
+  M	entry/src/main/ets/pages/TeamListPage.ets
+
+[2026-09-12 21:14:33 +08:00] 优化模拟器定位处理
+提交：7c757b4444db13c1b5987c0932639dd4011f546e
+原始标题：Improve emulator location handling
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:14:33Z | CommitDate：2026-09-12T13:14:33Z
+版本范围：扩展分支
+内容：兼容模糊或精确定位授权，增加定位服务检查、超时调整和最近位置回退处理。
+链接：https://github.com/OldGuestInBreeze/-1/commit/7c757b4444db13c1b5987c0932639dd4011f546e
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：2 项
+  M	entry/src/main/ets/utils/LocationUtil.ets
+  M	entry/src/main/module.json5
+
+[2026-09-12 21:25:30 +08:00] 修正好友及返回按钮交互
+提交：bc363a00fc51bf6c4312e0ed1b3f56c0a6a60018
+原始标题：Fix friend and back button interactions
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:25:30Z | CommitDate：2026-09-12T13:25:30Z
+版本范围：扩展分支
+内容：新增通用 PageBackButton，调整多页面返回交互和成员页好友操作。
+链接：https://github.com/OldGuestInBreeze/-1/commit/bc363a00fc51bf6c4312e0ed1b3f56c0a6a60018
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：12 项
+  A	entry/src/main/ets/component/PageBackButton.ets
+  M	entry/src/main/ets/pages/ApplyPage.ets
+  M	entry/src/main/ets/pages/ChatPage.ets
+  M	entry/src/main/ets/pages/EventEditPage.ets
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+  M	entry/src/main/ets/pages/EventListPage.ets
+  M	entry/src/main/ets/pages/MapPage.ets
+  M	entry/src/main/ets/pages/MyEventPage.ets
+  M	entry/src/main/ets/pages/NavigationPage.ets
+  M	entry/src/main/ets/pages/ResetPasswordPage.ets
+  M	entry/src/main/ets/pages/TeamListPage.ets
+  M	entry/src/main/ets/pages/UserEditPage.ets
+
+[2026-09-12 21:35:44 +08:00] 调整 ArkTS 定位异常处理
+提交：21bab808da18a6818ca0abd3d919fb186bf04b4d
+原始标题：Fix ArkTS location error handling
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:35:44Z | CommitDate：2026-09-12T13:35:44Z
+版本范围：扩展分支
+内容：修改定位工具、返回按钮及相关页面的异常处理与调用代码。
+链接：https://github.com/OldGuestInBreeze/-1/commit/21bab808da18a6818ca0abd3d919fb186bf04b4d
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：8 项
+  M	entry/src/main/ets/component/PageBackButton.ets
+  M	entry/src/main/ets/pages/ChatPage.ets
+  M	entry/src/main/ets/pages/EventEditPage.ets
+  M	entry/src/main/ets/pages/EventInfoPage.ets
+  M	entry/src/main/ets/pages/MyEventPage.ets
+  M	entry/src/main/ets/pages/NavigationPage.ets
+  M	entry/src/main/ets/pages/UserEditPage.ets
+  M	entry/src/main/ets/utils/LocationUtil.ets
+
+[2026-09-12 21:41:55 +08:00] 修正好友通知导航
+提交：3c61d2f73d2e97342cd72ac80f841fbdbd6bb2d4
+原始标题：Fix friend notification navigation
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:41:55Z | CommitDate：2026-09-12T13:41:55Z
+版本范围：扩展分支
+内容：调整好友视图中的通知入口与导航交互。
+链接：https://github.com/OldGuestInBreeze/-1/commit/3c61d2f73d2e97342cd72ac80f841fbdbd6bb2d4
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  M	entry/src/main/ets/view/FriendViewComponent.ets
+
+[2026-09-12 21:55:18 +08:00] 定制应用名称与启动图标
+提交：c705e493c871edaf86799267bb95635b804fa015
+原始标题：Customize app name and launcher icon
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T13:55:18Z | CommitDate：2026-09-12T13:55:18Z
+版本范围：扩展分支
+内容：修改应用名称资源和图标，并增加中英文名称资源。
+链接：https://github.com/OldGuestInBreeze/-1/commit/c705e493c871edaf86799267bb95635b804fa015
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：6 项
+  M	AppScope/resources/base/element/string.json
+  M	AppScope/resources/base/media/foreground.png
+  M	entry/src/main/resources/base/element/string.json
+  M	entry/src/main/resources/base/media/foreground.png
+  A	entry/src/main/resources/en_US/element/string.json
+  A	entry/src/main/resources/zh_CN/element/string.json
+
+[2026-09-12 22:02:39 +08:00] 更新兴趣小队应用图标
+提交：35373a9e2519dec93c18ccf1e99bffcc94072b02
+原始标题：Use supplied interest team app icon
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T14:02:39Z | CommitDate：2026-09-12T14:02:39Z
+版本范围：扩展分支
+内容：替换应用级和模块级 foreground.png 图标资源。
+链接：https://github.com/OldGuestInBreeze/-1/commit/35373a9e2519dec93c18ccf1e99bffcc94072b02
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：2 项
+  M	AppScope/resources/base/media/foreground.png
+  M	entry/src/main/resources/base/media/foreground.png
+
+[2026-09-12 22:29:58 +08:00] 调整好友通知安全区域
+提交：7cec157df1f8d851f9e8b411115623389a66f3ea
+原始标题：Move friend notifications below status bar
+作者：Jacob Young | 提交者：Jacob Young
+AuthorDate：2026-09-12T14:29:58Z | CommitDate：2026-09-12T14:29:58Z
+版本范围：扩展分支
+内容：修改好友通知布局，使其避开状态栏区域。
+链接：https://github.com/OldGuestInBreeze/-1/commit/7cec157df1f8d851f9e8b411115623389a66f3ea
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  M	entry/src/main/ets/view/FriendViewComponent.ets
+
+========================================================================
+2026-09-14 | 环境评审与需求文档归档 | 3 条
+上传阶段一环境评审和软件需求规格说明书，并更新需求文档模板格式。
+
+[2026-09-14 09:10:37 +08:00] 上传阶段一环境评审文档
+提交：889c51b67a5010ac6e1a567f75ea7e5c3c7e26a5
+原始标题：Add stage one environment review document
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-14T01:10:37Z | CommitDate：2026-09-14T01:10:37Z
+版本范围：扩展分支
+内容：新增阶段一环境评审 Word 文档。
+链接：https://github.com/OldGuestInBreeze/-1/commit/889c51b67a5010ac6e1a567f75ea7e5c3c7e26a5
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-stage1-environment.docx
+
+[2026-09-14 10:24:13 +08:00] 上传软件需求规格说明书
+提交：b6d3d9f46f05c82334fcdb68467e014a109c47a6
+原始标题：Add interest team software requirements specification
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-14T02:24:13Z | CommitDate：2026-09-14T02:24:13Z
+版本范围：扩展分支
+内容：新增软件需求规格说明书 Word 文档。
+链接：https://github.com/OldGuestInBreeze/-1/commit/b6d3d9f46f05c82334fcdb68467e014a109c47a6
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-software-requirements-specification.docx
+
+[2026-09-14 10:38:17 +08:00] 调整需求说明书模板格式
+提交：5ed281fbe272e33be30dd4d1fdec91fe79ba951c
+原始标题：Preserve template format in requirements specification
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-14T02:38:17Z | CommitDate：2026-09-14T02:38:17Z
+版本范围：扩展分支
+内容：更新已上传的需求规格说明书，提交标题说明此次调整保留模板格式。
+链接：https://github.com/OldGuestInBreeze/-1/commit/5ed281fbe272e33be30dd4d1fdec91fe79ba951c
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  M	docs/interest-team-software-requirements-specification.docx
+
+========================================================================
+2026-09-15 | 概要设计文档归档 | 1 条
+上传兴趣小队系统概要设计文档。
+
+[2026-09-15 09:33:53 +08:00] 上传概要设计文档
+提交：0b89e8d16d30e7d185c191b3d5ac38ed61dd15ea
+原始标题：Add high level design document
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-15T01:33:53Z | CommitDate：2026-09-15T01:33:53Z
+版本范围：扩展分支
+内容：新增系统概要设计 Word 文档。
+链接：https://github.com/OldGuestInBreeze/-1/commit/0b89e8d16d30e7d185c191b3d5ac38ed61dd15ea
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-high-level-design.docx
+
+========================================================================
+2026-09-16 | 详细设计、测试报告与论文归档 | 4 条
+上传详细设计、系统测试报告和毕业论文，并更新论文图示与封面线条。
+
+[2026-09-16 09:45:45 +08:00] 上传详细设计文档
+提交：7bfa949b3bb12638c053656a322298b8de2625c0
+原始标题：Add detailed design document
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-16T01:45:45Z | CommitDate：2026-09-16T01:45:45Z
+版本范围：扩展分支
+内容：新增系统详细设计 Word 文档。
+链接：https://github.com/OldGuestInBreeze/-1/commit/7bfa949b3bb12638c053656a322298b8de2625c0
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-detailed-design.docx
+
+[2026-09-16 14:59:53 +08:00] 上传系统测试报告
+提交：2d68adeed73e1b07122d63bf6ba950446165f50e
+原始标题：Add system test report
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-16T06:59:53Z | CommitDate：2026-09-16T06:59:53Z
+版本范围：扩展分支
+内容：新增系统测试报告 Word 文档；文件上传记录本身不代表本次执行了测试。
+链接：https://github.com/OldGuestInBreeze/-1/commit/2d68adeed73e1b07122d63bf6ba950446165f50e
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-system-test-report.docx
+
+[2026-09-16 15:45:56 +08:00] 上传毕业论文
+提交：b52988c93cc51c9226571ef481d4e415ac5208e4
+原始标题：Add interest team graduation thesis
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-16T07:45:56Z | CommitDate：2026-09-16T07:45:56Z
+版本范围：扩展分支
+内容：新增兴趣小队毕业论文 Word 文档。
+链接：https://github.com/OldGuestInBreeze/-1/commit/b52988c93cc51c9226571ef481d4e415ac5208e4
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  A	docs/interest-team-graduation-thesis.docx
+
+[2026-09-16 16:40:47 +08:00] 更新论文图示与封面线条
+提交：5ca86cfcd3ef4b259041c020a0ad6663f51be553
+原始标题：Redraw thesis figures and cover lines
+作者：Devin AI | 提交者：Devin AI
+AuthorDate：2026-09-16T08:40:47Z | CommitDate：2026-09-16T08:40:47Z
+版本范围：扩展分支
+内容：更新毕业论文文件，提交标题记载了图示与封面线条调整。
+链接：https://github.com/OldGuestInBreeze/-1/commit/5ca86cfcd3ef4b259041c020a0ad6663f51be553
+所在分支：devin/1789022641-fix-created-event-crash
+文件变更：1 项
+  M	docs/interest-team-graduation-thesis.docx
+
+========================================================================
+2026-09-17 | 答辩材料交付 | 1 条
+在独立文档分支上传可编辑答辩 PPT 和 PDF 预览文件。
+
+[2026-09-17 23:31:38 +08:00] 上传项目答辩材料
+提交：29f0685fe0f6c198ff8b4e5b08bbc276dd3b0105
+原始标题：docs: add project defense presentation and PDF
+作者：zhanfeng491198 | 提交者：zhanfeng491198
+AuthorDate：2026-09-17T15:31:38Z | CommitDate：2026-09-17T15:31:38Z
+版本范围：答辩分支
+内容：新增 15 页可编辑答辩 PPT 和对应 PDF，供 GitHub 直接下载。
+链接：https://github.com/OldGuestInBreeze/-1/commit/29f0685fe0f6c198ff8b4e5b08bbc276dd3b0105
+所在分支：devin/1789659075-defense-downloads
+文件变更：2 项
+  A	presentation/interest-team-defense.pdf
+  A	presentation/interest-team-defense.pptx
+
+========================================================================
+文档与交付包上传索引
+2026-09-10 00:01:25 +08:00 | A | tools/interest-team-backend-launcher.zip | 736bf3a06c509105b435c41c798e9058decfa95f
+2026-09-14 09:10:37 +08:00 | A | docs/interest-team-stage1-environment.docx | 889c51b67a5010ac6e1a567f75ea7e5c3c7e26a5
+2026-09-14 10:24:13 +08:00 | A | docs/interest-team-software-requirements-specification.docx | b6d3d9f46f05c82334fcdb68467e014a109c47a6
+2026-09-14 10:38:17 +08:00 | M | docs/interest-team-software-requirements-specification.docx | 5ed281fbe272e33be30dd4d1fdec91fe79ba951c
+2026-09-15 09:33:53 +08:00 | A | docs/interest-team-high-level-design.docx | 0b89e8d16d30e7d185c191b3d5ac38ed61dd15ea
+2026-09-16 09:45:45 +08:00 | A | docs/interest-team-detailed-design.docx | 7bfa949b3bb12638c053656a322298b8de2625c0
+2026-09-16 14:59:53 +08:00 | A | docs/interest-team-system-test-report.docx | 2d68adeed73e1b07122d63bf6ba950446165f50e
+2026-09-16 15:45:56 +08:00 | A | docs/interest-team-graduation-thesis.docx | b52988c93cc51c9226571ef481d4e415ac5208e4
+2026-09-16 16:40:47 +08:00 | M | docs/interest-team-graduation-thesis.docx | 5ca86cfcd3ef4b259041c020a0ad6663f51be553
+2026-09-17 23:31:38 +08:00 | A | presentation/interest-team-defense.pdf | 29f0685fe0f6c198ff8b4e5b08bbc276dd3b0105
+2026-09-17 23:31:38 +08:00 | A | presentation/interest-team-defense.pptx | 29f0685fe0f6c198ff8b4e5b08bbc276dd3b0105
