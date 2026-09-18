@@ -1,0 +1,1383 @@
+{
+  "source": "eiteam01.sql",
+  "sha256": "dcc8f3ecf1cb8f2a052cee07a4fa539f5bccf8dc373e0d044de896429b14b34f",
+  "tableCount": 12,
+  "fieldCount": 99,
+  "foreignKeyCount": 10,
+  "tables": [
+    {
+      "name": "it_chat",
+      "label": "私信消息",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id_from",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id_to",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "content",
+          "type": "varchar(10240)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb4",
+          "collation": "utf8mb4_general_ci"
+        },
+        {
+          "name": "status_from",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'1'",
+          "comment": "发送方状态:0正常,1已删除",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "status_to",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'1'",
+          "comment": "接收方状态:0正常,1已删除",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "user_chat",
+          "unique": false,
+          "columns": [
+            "user_id_from"
+          ],
+          "type": "BTREE"
+        },
+        {
+          "name": "user_chat_2",
+          "unique": false,
+          "columns": [
+            "user_id_to"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "user_chat",
+          "columns": [
+            "user_id_from"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        },
+        {
+          "name": "user_chat_2",
+          "columns": [
+            "user_id_to"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "it_event",
+      "label": "活动",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "name",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "活动名称",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "intro",
+          "type": "varchar(1024)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "简介",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "addr",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "head_img",
+          "type": "varchar(512)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "活动头像地址",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "start_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "lon",
+          "type": "double",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "经度",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "lat",
+          "type": "double",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "纬度",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "state",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'1'",
+          "comment": "活动状态，默认为1，表示正常。2：已取消",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "if_delete",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'0'",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "update_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "user_id",
+          "unique": false,
+          "columns": [
+            "user_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "it_event_ibfk_1",
+          "columns": [
+            "user_id"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "it_event_comment",
+      "label": "活动评论",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "event_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "content",
+          "type": "varchar(1024)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "event_id",
+          "unique": false,
+          "columns": [
+            "event_id"
+          ],
+          "type": "BTREE"
+        },
+        {
+          "name": "user_id",
+          "unique": false,
+          "columns": [
+            "user_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "it_event_comment_ibfk_1",
+          "columns": [
+            "event_id"
+          ],
+          "referenceTable": "it_event",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        },
+        {
+          "name": "it_event_comment_ibfk_2",
+          "columns": [
+            "user_id"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "it_event_member",
+      "label": "活动成员",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "event_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "event_id",
+          "unique": false,
+          "columns": [
+            "event_id"
+          ],
+          "type": "BTREE"
+        },
+        {
+          "name": "user_id",
+          "unique": false,
+          "columns": [
+            "user_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "it_event_member_ibfk_1",
+          "columns": [
+            "event_id"
+          ],
+          "referenceTable": "it_event",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        },
+        {
+          "name": "it_event_member_ibfk_2",
+          "columns": [
+            "user_id"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "it_friend",
+      "label": "好友申请 / 关系",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "friend_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "apply",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "申请状态：0表示拒绝，1表示同意，2表示申请中",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "user_id",
+          "unique": true,
+          "columns": [
+            "user_id",
+            "friend_id"
+          ],
+          "type": "BTREE"
+        },
+        {
+          "name": "friend_id",
+          "unique": false,
+          "columns": [
+            "friend_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "it_friend_ibfk_1",
+          "columns": [
+            "user_id"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        },
+        {
+          "name": "it_friend_ibfk_2",
+          "columns": [
+            "friend_id"
+          ],
+          "referenceTable": "it_user",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "it_user",
+      "label": "用户",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "username",
+          "type": "varchar(256)",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "password",
+          "type": "varchar(256)",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "name",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "名称",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "addr",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "地址",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "gender",
+          "type": "varchar(4)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'0'",
+          "comment": "性别",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "head_img",
+          "type": "varchar(512)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "头像",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_bin"
+        },
+        {
+          "name": "lon",
+          "type": "double",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "lat",
+          "type": "double",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [],
+      "foreignKeys": [],
+      "options": "InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_admin",
+      "label": "管理员",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "username",
+          "type": "varchar(64)",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "password",
+          "type": "varchar(64)",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "end",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "email",
+          "type": "varchar(128)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "receive_email",
+          "type": "int",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'0'",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [],
+      "foreignKeys": [],
+      "options": "InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_alert",
+      "label": "告警记录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "metric_name",
+          "type": "varchar(64)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "metric_value_real",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "metric_value_rule",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "metric_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [],
+      "foreignKeys": [],
+      "options": "InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_api",
+      "label": "接口目录",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "end",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "path",
+          "type": "varchar(128)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "intro",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "method",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "param_type",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "param_example",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "response_body",
+          "type": "varchar(1024)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "visit",
+          "type": "bigint unsigned",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "'0'",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "end_path",
+          "unique": true,
+          "columns": [
+            "end",
+            "path"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [],
+      "options": "InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_operlog",
+      "label": "操作日志",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "runner_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "runner_type",
+          "type": "varchar(32)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "path",
+          "type": "varchar(128)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "param",
+          "type": "varchar(256)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "operlog_user",
+          "unique": false,
+          "columns": [
+            "runner_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [],
+      "options": "InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_performance",
+      "label": "性能采样",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "cpu_usage",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "cpu_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "memory_total",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "memory_used",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "memory_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "net_rx",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "net_tx",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "net_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "disk_total",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "disk_used",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "disk_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "heap_used",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "heap_max",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "heap_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "non_heap_used",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "non_heap_max",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "non_heap_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [],
+      "foreignKeys": [],
+      "options": "InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    },
+    {
+      "name": "op_rule",
+      "label": "告警规则",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": true,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "admin_id",
+          "type": "bigint unsigned",
+          "nullable": false,
+          "autoIncrement": false,
+          "default": null,
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "metric_name",
+          "type": "varchar(64)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "metric_value",
+          "type": "float",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "metric_unit",
+          "type": "varchar(16)",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": "utf8mb3",
+          "collation": "utf8mb3_general_ci"
+        },
+        {
+          "name": "create_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        },
+        {
+          "name": "update_time",
+          "type": "datetime",
+          "nullable": true,
+          "autoIncrement": false,
+          "default": "NULL",
+          "comment": "",
+          "charset": null,
+          "collation": null
+        }
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "metric_name",
+          "unique": true,
+          "columns": [
+            "metric_name"
+          ],
+          "type": "BTREE"
+        },
+        {
+          "name": "admin_id",
+          "unique": false,
+          "columns": [
+            "admin_id"
+          ],
+          "type": "BTREE"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "op_rule_ibfk_1",
+          "columns": [
+            "admin_id"
+          ],
+          "referenceTable": "op_admin",
+          "referenceColumns": [
+            "id"
+          ],
+          "onDelete": "CASCADE",
+          "onUpdate": "CASCADE"
+        }
+      ],
+      "options": "InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC"
+    }
+  ]
+}
